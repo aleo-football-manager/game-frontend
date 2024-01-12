@@ -9,6 +9,7 @@ interface IGrid {
   selectedPlayer: number;
   isGoalkeeper: boolean;
   grid: (PlayerType | null)[];
+  isSelecting: boolean;
   movePlayer: (val0: number, val1: number, val2: number) => void;
   removePlayer: (playerId: number) => void;
 }
@@ -21,6 +22,7 @@ const Grid: React.FC<IGrid> = ({
   selectedPlayer,
   isGoalkeeper,
   rowIndex,
+  isSelecting,
 }) => {
   const handleGridSlotClick = (slot: number) => {
     // Handle the click event
@@ -30,6 +32,7 @@ const Grid: React.FC<IGrid> = ({
       removePlayer(selectedPlayer || 0);
     }
   };
+  console.log("grid33", grid, rowIndex);
 
   return (
     <div
@@ -40,12 +43,13 @@ const Grid: React.FC<IGrid> = ({
           isDisabled={false}
           formationPart={formation}
           key={index}
+          isSelecting={isSelecting}
           rowIndex={rowIndex}
           selectedPlayer={selectedPlayer}
           slot={index}
           player={player}
           isGoalkeeper={isGoalkeeper}
-          movePlayer={() => handleGridSlotClick(index)}
+          movePlayer={movePlayer}
           removePlayer={() => removePlayer(player?.id || 0)}
         />
       ))}
