@@ -2,7 +2,7 @@
 
 import Game from "@/components/Game";
 import TeamSelection from "@/components/TeamSelection";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   createSharedState,
   requestCreateEvent,
@@ -20,6 +20,7 @@ import {
   transitionFees,
 } from '@state/manager.js';
 import { useEventHandling } from '@hooks/eventHandling.js';
+import jsyaml from 'js-yaml';
 
 import { Step, useNewGameStore } from '../store.js';
 import { useSearchParams } from 'react-router-dom';
@@ -140,16 +141,32 @@ const CreateGame: React.FC<ICreateGame> = ({}) => {
     }
   };
 
+
+  const disabled = [
+    inputs?.opponent,
+    inputs?.wager_record,
+    inputs?.challenger_wager_amount,
+    inputs?.challenger_answer,
+    balance === 0
+  ].includes(undefined);
+
+  const [buttonText, setButtonText] = useState('PROPOSE GAME');
+
+  useEffect(() => {
+    if (!loading) {
+      setButtonText('PROPOSE GAME');
+    } else if (event?.status === EventStatus.Creating) {
+      setButtonText('CREATING EVENT...');
+    } else if (event?.status === EventStatus.Pending) {
+      setButtonText('EVENT PENDING...');
+    } else if (confirmStep === ConfirmStep.Signing) {
+      setButtonText('REQUESTING SIGNATURE...');
+    } else if (confirmStep === ConfirmStep.RequestingEvent) {
+      setButtonText('REQUESTING EVENT...');
+    }
+  }, [loading, event?.status, confirmStep]);
+
   
-
-  // const response = await requestCreateEvent({
-  //   type: EventType.Execute,
-  //   programId: "football_game_v008.aleo",
-  //   functionId: "propose_game",
-  //   fee: "150000",
-  //   inputs: Object.values("1"),
-  // });
-
 
   const [selectedTeam, setSelectedTeam] = useState(2);
   const [isGameStarted, setIsGameStarted] = useState(false);
