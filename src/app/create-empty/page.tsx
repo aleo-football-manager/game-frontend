@@ -104,7 +104,7 @@ const CreateGame: React.FC<ICreateGame> = ({}) => {
         const fields = Object(jsyaml.load(signature.messageFields));
 
         const proposalInputs: ProposeGameInputs = {
-          wager_record: 'field',
+          wager_record: inputs.wager_record,
           challenger_wager_amount: '100u64',
           sender: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
           challenger: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
