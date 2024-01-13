@@ -25,7 +25,7 @@ interface ICreateGame {}
 const CreateGame: React.FC<ICreateGame> = ({}) => {
 
   const proposalInputs: ProposeGameInputs = {
-    wager_record: ,
+    wager_record: puzzle_piece_wager_input,
     challenger_wager_amount: '100u64',
     sender: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
     challenger: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',

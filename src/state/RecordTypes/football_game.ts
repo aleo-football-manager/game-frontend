@@ -1,18 +1,12 @@
 import { RecordWithPlaintext, zodAddress } from '@puzzlehq/sdk';
 import { z } from 'zod';
 
-export enum Answer {
-  InTheWeeds = 'In the Weeds',
-  BehindTheBuilding = 'Behind the Building',
-}
-
-export const getAnswer = (answer: '0field' | '1field') =>
-  answer === '0field' ? Answer.InTheWeeds : Answer.BehindTheBuilding;
+const u8 = z.number().int().min(0).max(255);
 
 export const GameRecordSchema = z.object({
   owner: zodAddress,
   challenger_commit: z.string(),
-  opponent_answer: z.enum(['0field', '1field']),
+  opponent_answer: z.array(u8).length(11),
   total_pot: z.string().transform(Number),
   challenger_address: zodAddress,
   opponent_address: zodAddress,
@@ -25,8 +19,10 @@ export const GameRecordSchema = z.object({
     '4field',
     '5field',
     '6field',
+    '7field',
   ]),
   ix: z.literal('1u32'),
+  uuid: z.string().uuid(),
   _nonce: z.string(),
 });
 export type GameRecord = {
@@ -131,6 +127,23 @@ export type WaitingRevealNotification = {
   recordWithPlaintext: RecordWithPlaintext;
 };
 
+export const CalculatedOutcomeNotificationSchema = z.object({
+  owner: zodAddress, //opponent
+  game_multisig: zodAddress,
+  game_state: z.literal('3field'), //TODO: which field value we use?
+  your_turn: z.string().transform(Boolean),
+  total_pot: z.string().transform(Number),
+  challenger_address: zodAddress,
+  opponent_address: zodAddress,
+  ix: z.literal('7u32'),
+  uuid: z.string().uuid(),
+  _nonce: z.string(),
+});
+export type CalculatedOutcomeNotification = {
+  recordData: z.infer<typeof CalculatedOutcomeNotificationSchema>;
+  recordWithPlaintext: RecordWithPlaintext;
+};
+
 export const RevealAnswerNotificationSchema = z.object({
   owner: zodAddress, //opponent
   game_multisig: zodAddress,
@@ -139,7 +152,8 @@ export const RevealAnswerNotificationSchema = z.object({
   total_pot: z.string().transform(Number),
   challenger_address: zodAddress,
   opponent_address: zodAddress,
-  opponent_answer: z.enum(['0field', '1field']),
+  opponent_answer: z.array(u8).length(11),
+  uuid: z.string().uuid(),
   ix: z.literal('8u32'),
   _nonce: z.string(),
 });
@@ -156,10 +170,8 @@ export const GameFinishReqNotificationSchema = z.object({
   total_pot: z.string().transform(Number),
   challenger_address: zodAddress,
   opponent_address: zodAddress,
-  challenger_answer: z.enum(['0field', '1field']),
-  opponent_answer: z.enum(['0field', '1field']),
-  winner: zodAddress,
-  loser: zodAddress,
+  challenger_answer: z.array(u8).length(11),
+  opponent_answer: z.array(u8).length(11),
   ix: z.literal('9u32'),
   _nonce: z.string(),
 });

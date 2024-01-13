@@ -8,7 +8,7 @@ import {
   getGameAction,
   getGameState,
   parseGameRecord,
-} from './RecordTypes/wheres_alex_vxxx';
+} from './RecordTypes/football_game';
 
 const parsePuzzlePieces = (records: RecordWithPlaintext[]) => {
   if (records.length > 0) {

@@ -1,5 +1,4 @@
 import { RecordWithPlaintext } from '@puzzlehq/sdk';
-import { Answer } from './RecordTypes/wheres_alex_vxxx';
 
 export const GAME_PROGRAM_ID = 'football_game_v008.aleo';
 
@@ -57,7 +56,6 @@ export type SubmitWagerInputs = {
 export type AcceptGameInputs = {
   game_record: RecordWithPlaintext;
   opponent_answer: '0field' | '1field';
-  opponent_answer_readable: Answer;
   piece_stake_challenger: RecordWithPlaintext;
   piece_claim_challenger: RecordWithPlaintext;
   piece_stake_opponent: RecordWithPlaintext;
