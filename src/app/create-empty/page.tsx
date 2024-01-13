@@ -19,11 +19,19 @@ import {
   ProposeGameInputs,
   transitionFees,
 } from '@state/manager.js';
+import { useEventHandling } from '@hooks/eventHandling.js';
 
 import { Step, useNewGameStore } from '../store.js';
 import { useSearchParams } from 'react-router-dom';
 interface ICreateGame {}
 
+const messageToSign = '1234567field';
+
+
+enum ConfirmStep {
+  Signing,
+  RequestingEvent,
+}
 const CreateGame: React.FC<ICreateGame> = ({}) => {
 
   const [inputs, eventId, setInputs, setEventId, setStep] = useNewGameStore(
@@ -52,24 +60,87 @@ const CreateGame: React.FC<ICreateGame> = ({}) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
 
-  const proposalInputs: ProposeGameInputs = {
-    wager_record: 'field',
-    challenger_wager_amount: '100u64',
-    sender: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
-    challenger: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
-    opponent: 'aleo1r4pc6ufjvw050jhzrew3vqm2lvacdxfd4a5ckulau0vjc72qvc8sr0jg2a',
-    game_multisig: 'aleo1asu88azw3uqud282sll23wh3tvmvwjdz5vhvu2jwyrdwtgqn5qgqetuvr6',
-    challenger_message_1: '344770206515066694345863990910961346516345489682671576468160854792060056345field',
-    challenger_message_2: '825602627445886687266399512080984152479750081242066206322049231905840897733field',
-    challenger_message_3: '7131563294138157697636980988285342289800193481060118979325065061725401371413field',
-    challenger_message_4: '5614969858986721495317269544367248590671925341452452275659834275047113140510field',
-    challenger_message_5: '998663372122700561883073426402819334460124966419873210288648288784658870328field',
-    challenger_sig: 'sign1tvl3d46v49qg4pj204msl0c50sk27yarmktw7slxqv76z5djtgps9uqjds4vlftrg9tg5pnw3f8ddnzgpt40fcn073cgrju080xyuq79rm93tzlnnqrljj43cpzpy9h7v26fu3sa2xd0v52al4h5w3knqy2a8kgupslh9f6tyrphczumvhxmt59hvavmm3ef56k2jkrq2tzq7r0dgc5',
-    challenger_nonce: '12345field', /// todo - make this random
-    challenger_answer: '[0u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8]',
-    game_multisig_seed: '98765field',
-    uuid: '0field',
+  useEffect(() => {
+    if (event) {
+      setConfirmStep(ConfirmStep.Signing);
+    }
+  }, [event]);
+
+  const createProposeGameEvent = async () => {
+    setLoading(true);
+    setConfirmStep(ConfirmStep.Signing);
+    setError(undefined);
+    const signature = await requestSignature({ message: messageToSign });
+
+    if (signature.error || (!signature.messageFields || !signature.signature)) {
+      setError(signature.error);
+      setLoading(false);
+      return;
+    }
+    const sharedStateResponse = await createSharedState();
+    if (sharedStateResponse.error) {
+      setError(sharedStateResponse.error);
+      setLoading(false);
+      return;
+    } else if (sharedStateResponse.data) {
+      const game_multisig_seed = sharedStateResponse.data.seed;
+      const game_multisig = sharedStateResponse.data.address;
+
+      setInputs({ ...inputs, game_multisig_seed, game_multisig });
+      if (
+        inputs?.opponent &&
+        inputs?.wager_record &&
+        inputs?.challenger_wager_amount &&
+        inputs?.challenger_answer &&
+        inputs?.challenger &&
+        signature &&
+        signature.messageFields &&
+        signature.signature &&
+        account
+      ) {
+        setConfirmStep(ConfirmStep.RequestingEvent);
+
+        const fields = Object(jsyaml.load(signature.messageFields));
+
+        const proposalInputs: ProposeGameInputs = {
+          wager_record: 'field',
+          challenger_wager_amount: '100u64',
+          sender: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
+          challenger: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
+          opponent: 'aleo1r4pc6ufjvw050jhzrew3vqm2lvacdxfd4a5ckulau0vjc72qvc8sr0jg2a',
+          game_multisig: game_multisig,
+          challenger_message_1: fields.field_1,
+          challenger_message_2: fields.field_2,
+          challenger_message_3: fields.field_3,
+          challenger_message_4: fields.field_4,
+          challenger_message_5: fields.field_5,
+          challenger_sig: signature.signature,
+          challenger_nonce: messageToSign, 
+          challenger_answer: '[0u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8,8u8]',
+          game_multisig_seed: '98765field',
+          uuid: '0field',
+        };
+        const response = await requestCreateEvent({
+          type: EventType.Execute,
+          programId: GAME_PROGRAM_ID,
+          functionId: GAME_FUNCTIONS.propose_game,
+          fee: transitionFees.propose_game,
+          inputs: Object.values(proposalInputs),
+        });
+        if (response.error) {
+          setError(response.error);
+        } else if (!response.eventId) {
+          setError('No eventId found!');
+        } else {
+          console.log('success', response.eventId);
+          setEventId(response.eventId);
+          setSearchParams({ eventId: response.eventId });
+        }
+      }
+    }
   };
+
+  
 
   // const response = await requestCreateEvent({
   //   type: EventType.Execute,
