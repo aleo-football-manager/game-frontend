@@ -105,10 +105,10 @@ const CreateGame: React.FC<ICreateGame> = ({}) => {
 
         const proposalInputs: ProposeGameInputs = {
           wager_record: inputs.wager_record,
-          challenger_wager_amount: '100u64',
-          sender: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
-          challenger: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
-          opponent: 'aleo1r4pc6ufjvw050jhzrew3vqm2lvacdxfd4a5ckulau0vjc72qvc8sr0jg2a',
+          challenger_wager_amount: inputs.challenger_wager_amount + 'u64',
+          sender: inputs.challenger,
+          challenger: inputs.challenger,
+          opponent: inputs.opponent,
           game_multisig: game_multisig,
           challenger_message_1: fields.field_1,
           challenger_message_2: fields.field_2,
