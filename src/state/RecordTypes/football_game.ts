@@ -234,8 +234,7 @@ export type GameState =
   | 'opponent:3'
   | 'opponent:5'
   | 'opponent:6'
-  | 'winner:4'
-  | 'loser:4';
+  | 'finished:4'; //TODO: removed winner/loser
 
 export const getGameState = (game: GameNotification): GameState => {
   const challenger_or_opponent =
@@ -258,10 +257,8 @@ export const getGameState = (game: GameNotification): GameState => {
       return `opponent:3`;
     case '8u32':
       return `challenger:3`;
-    case '9u32': {
-      const isWinner = game.recordData.winner === game.recordData.owner;
-      return isWinner ? `winner:4` : `loser:4`;
-    }
+    case '9u32': 
+      return `finished:4`; // TODO modified, check impact
     case '10u32':
       return `${challenger_or_opponent}:5`;
     default:
