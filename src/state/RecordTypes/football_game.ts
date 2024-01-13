@@ -135,7 +135,7 @@ export const CalculatedOutcomeNotificationSchema = z.object({
   total_pot: z.string().transform(Number),
   challenger_address: zodAddress,
   opponent_address: zodAddress,
-  ix: z.literal('7u32'),
+  ix: z.literal('11u32'),
   uuid: z.string().uuid(),
   _nonce: z.string(),
 });
@@ -172,6 +172,8 @@ export const GameFinishReqNotificationSchema = z.object({
   opponent_address: zodAddress,
   challenger_answer: z.array(u8).length(11),
   opponent_answer: z.array(u8).length(11),
+  winner: zodAddress,
+  loser: zodAddress,
   ix: z.literal('9u32'),
   _nonce: z.string(),
 });
@@ -207,7 +209,8 @@ export type GameNotification =
   | WaitingRevealNotification
   | RevealAnswerNotification
   | GameFinishReqNotification
-  | GameFinishedNotification;
+  | GameFinishedNotification
+  | CalculatedOutcomeNotification;
 
 export const removeVisibilitySuffix = (obj: { [key: string]: string }) => {
   for (const key in obj) {
@@ -234,7 +237,9 @@ export type GameState =
   | 'opponent:3'
   | 'opponent:5'
   | 'opponent:6'
-  | 'finished:4'; //TODO: removed winner/loser
+  | 'winner:4'
+  | 'loser:4'
+  | 'challenger:7'; // Added this state for calculating outcome
 
 export const getGameState = (game: GameNotification): GameState => {
   const challenger_or_opponent =
@@ -257,10 +262,14 @@ export const getGameState = (game: GameNotification): GameState => {
       return `opponent:3`;
     case '8u32':
       return `challenger:3`;
-    case '9u32': 
-      return `finished:4`; // TODO modified, check impact
+    case '9u32': {
+      const isWinner = game.recordData.winner === game.recordData.owner;
+      return isWinner ? `winner:4` : `loser:4`;
+    }
     case '10u32':
       return `${challenger_or_opponent}:5`;
+    case '11u32':
+      return 'challenger:7'
     default:
       return 'challenger:0';
   }
@@ -275,6 +284,7 @@ export type GameAction =
   | 'Ping'
   | 'Claim'
   | 'Lose'
+  | 'Calculate'
   | undefined;
 
 export const getGameAction = (gameState: GameState): GameAction => {
@@ -307,6 +317,8 @@ export const getGameAction = (gameState: GameState): GameAction => {
       return undefined;
     case 'opponent:6':
       return undefined;
+    case 'challenger:7':
+      return 'Calculate';
   }
 };
 
@@ -323,6 +335,7 @@ export const parseGameRecord = (
     RevealAnswerNotificationSchema,
     GameFinishReqNotificationSchema,
     GameFinishedNotificationSchema,
+    CalculatedOutcomeNotificationSchema
   ];
 
   for (const schema of schemas) {

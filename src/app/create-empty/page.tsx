@@ -20,12 +20,40 @@ import {
   transitionFees,
 } from '@state/manager.js';
 
+import { Step, useNewGameStore } from '../store.js';
+import { useSearchParams } from 'react-router-dom';
 interface ICreateGame {}
 
 const CreateGame: React.FC<ICreateGame> = ({}) => {
 
+  const [inputs, eventId, setInputs, setEventId, setStep] = useNewGameStore(
+    (state) => [
+      state.inputs,
+      state.eventId,
+      state.setInputs,
+      state.setEventId,
+      state.setStep,
+    ]
+  );
+  const [confirmStep, setConfirmStep] = useState(ConfirmStep.Signing);
+
+  const opponent = inputs?.opponent ?? '';
+  const answer = inputs?.challenger_answer;
+  const amount = inputs?.challenger_wager_amount ?? 0;
+
+  const { account } = useAccount();
+  const { balances } = useBalance({});
+  const balance = balances?.[0]?.public ?? 0;
+
+  const { loading, error, event, setLoading, setError } = useEventHandling({
+    id: eventId,
+    onSettled: () => setStep(Step._05_GameStarted),
+  });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+
   const proposalInputs: ProposeGameInputs = {
-    wager_record: puzzle_piece_wager_input,
+    wager_record: 'field',
     challenger_wager_amount: '100u64',
     sender: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
     challenger: 'aleo1r65hye843hlwcqcv5uuq6dgz9xsmhsphqwfpjc74vf59a4l4dyxqs4er5w',
@@ -70,4 +98,5 @@ const CreateGame: React.FC<ICreateGame> = ({}) => {
     </div>
   );
 };
+
 export default CreateGame;
