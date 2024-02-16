@@ -23,7 +23,7 @@ export const getPositionRole = (positionCode: number): string => {
 };
 
 export const isValidPlacement = (playerPosition: string, gridIndex: number) => {
-  console.log("params", playerPosition, gridIndex);
+  // console.log("params", playerPosition, gridIndex);
 
   if (playerPosition === "GK" && gridIndex !== 0) {
     return false;

@@ -327,6 +327,7 @@ const Game: React.FC<IGame> = ({ selectedTeam }) => {
     // setConfirmStep(ConfirmStep.Signing);
     // setError(undefined);
 
+    console.log("🚀 ~ createProposeGameEvent ~ signature await:");
     const signature = await requestSignature({ message: messageToSign });
     console.log("🚀 ~ createProposeGameEvent ~ signature:", signature);
 
@@ -411,6 +412,127 @@ const Game: React.FC<IGame> = ({ selectedTeam }) => {
           challenger_sig: signature.signature,
           challenger_nonce: nonce, /// todo - make this random
           challenger_answer: "[" + activePlayerIds.toString() + "]",
+          game_multisig_seed,
+          uuid: matchID + "field",
+        };
+        console.log(
+          "🚀 ~ createProposeGameEvent ~ proposalInputs:",
+          proposalInputs
+        );
+        const response = await requestCreateEvent({
+          type: EventType.Execute,
+          programId: GAME_PROGRAM_ID,
+          functionId: GAME_FUNCTIONS.propose_game,
+          fee: transitionFees.propose_game,
+          inputs: Object.values(proposalInputs),
+        });
+        console.log("🚀 ~ createProposeGameEvent ~ response:", response);
+        if (response.error) {
+        } else if (!response.eventId) {
+        } else {
+          console.log("success", response.eventId);
+          // setEventId(response.eventId);
+          //   setSearchParams({ eventId: response.eventId });
+        }
+      }
+    }
+  };
+
+
+  // TODO AVH DELETE THIS LATER. ONLY FOR TESTING PURPOSES
+  const createDefaultProposeGameEvent = async () => {
+    setIsLoading(true);
+    // setConfirmStep(ConfirmStep.Signing);
+    // setError(undefined);
+
+    console.log("🚀 ~ createProposeGameEvent ~ signature await:");
+    const signature = await requestSignature({ message: messageToSign });
+    console.log("🚀 ~ createProposeGameEvent ~ signature:", signature);
+
+    if (signature.error || !signature.messageFields || !signature.signature) {
+      console.log("🚀 ~ createProposeGameEvent ~ signature fail:", signature.error);
+      console.log("🚀 ~ createProposeGameEvent ~ signature fail:", !signature.messageFields);
+      console.log("🚀 ~ createProposeGameEvent ~ signature fail:", !signature.signature);
+      setIsLoading(false);
+      return;
+    }
+    const sharedStateResponse = await createSharedState();
+    console.log(
+      "🚀 ~ createProposeGameEvent ~ sharedStateResponse:",
+      sharedStateResponse
+    );
+    if (sharedStateResponse.error) {
+      setIsLoading(false);
+      return;
+    } else if (sharedStateResponse.data) {
+      const game_multisig_seed = sharedStateResponse.data.seed;
+      const game_multisig = sharedStateResponse.data.address;
+
+      setInputs({ ...inputs, game_multisig_seed, game_multisig });
+      console.log(
+        "144",
+        inputs?.opponent,
+        inputs?.wager_record,
+        inputs?.challenger_wager_amount,
+        inputs?.challenger_answer,
+        inputs?.challenger,
+        signature,
+        signature.messageFields,
+        signature.signature,
+        account
+      );
+
+      if (
+        inputs?.opponent &&
+        inputs?.wager_record &&
+        inputs?.challenger_wager_amount &&
+        // inputs?.challenger_answer &&
+        // inputs?.challenger &&
+        signature &&
+        signature.messageFields &&
+        signature.signature &&
+        account
+      ) {
+        const fields = Object(jsyaml.load(signature.messageFields));
+        const activePlayerIds = activePlayers.map((player) => {
+          return `${player.id}u8`;
+        });
+        console.log(
+          "🚀 ~ activePlayerIds ~ activePlayerIds:",
+          activePlayerIds,
+          toString()
+        );
+
+        const dateTime = new Date().toISOString().replace(/\D/g, ""); // Removes all non-digit characters from the date string
+        const numericSender = account?.address
+          ? Array.from(account.address)
+            .map((char) => char.charCodeAt(0))
+            .reduce((acc, curr) => acc + curr, 0)
+            .toString()
+          : "0";
+        const matchID = dateTime + numericSender; // todo ensure its below max field value
+
+        console.log(
+          "🚀 ~ matchid:",
+          matchID,
+          toString()
+        );
+
+        const proposalInputs: ProposeGameInputs = {
+          wager_record: inputs.wager_record,
+          challenger_wager_amount: inputs.challenger_wager_amount + "u64",
+          sender: account?.address,
+          challenger: account?.address,
+          opponent: inputs.opponent,
+          game_multisig: game_multisig,
+          challenger_message_1: fields.field_1,
+          challenger_message_2: fields.field_2,
+          challenger_message_3: fields.field_3,
+          challenger_message_4: fields.field_4,
+          challenger_message_5: fields.field_5,
+          challenger_sig: signature.signature,
+          challenger_nonce: nonce, /// todo - make this random
+          challenger_answer: "[1u8, 4u8, 5u8, 6u8, 7u8, 8u8, 9u8, 10u8, 11u8, 12u8, 13u8]",
           game_multisig_seed,
           uuid: matchID + "field",
         };
@@ -527,6 +649,16 @@ const Game: React.FC<IGame> = ({ selectedTeam }) => {
 
       // toast.info("You have selected 11 ");
     }
+  };
+
+  // TODO AVH DELETE THIS LATER. ONLY FOR TESTING PURPOSES
+  const startDefaultGame = async () => {
+
+    console.log("hey2");
+
+    const createGame = await createDefaultProposeGameEvent();
+    console.log("🚀 ~ startGame ~ DEFAULT:", createGame);
+
   };
 
   const removePlayer = (playerId: number) => {
@@ -802,6 +934,11 @@ const Game: React.FC<IGame> = ({ selectedTeam }) => {
         <div className="w-full -mt-2 flex justify-center">
           <Button onClick={startGame} className="w-1/2" variant={"outline"}>
             Start Game
+          </Button>
+        </div>
+        <div className="w-full -mt-2 flex justify-center">
+          <Button onClick={startDefaultGame} className="w-1/2" variant={"outline"}>
+            TEST
           </Button>
         </div>
       </div>
