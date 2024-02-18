@@ -189,12 +189,14 @@ const Game: React.FC<IGame> = ({ selectedTeam }) => {
       }));
     }
   };
+
   useEffect(() => {
     const filteredPlayers = benchPlayers.filter(
       (player) => selectedCheckboxes[player.position as Position]
     );
     setFilteredPlayers(filteredPlayers);
   }, [selectedCheckboxes, benchPlayers]);
+
   useEffect(() => {
     if (!currentGame || !msPuzzleRecords || !msGameRecords) return;
     const piece_stake_challenger = msPuzzleRecords?.find(
@@ -450,12 +452,12 @@ const Game: React.FC<IGame> = ({ selectedTeam }) => {
     console.log("🚀 ~ createProposeGameEvent ~ signature:", signature);
 
     if (signature.error || !signature.messageFields || !signature.signature) {
-      console.log("🚀 ~ createProposeGameEvent ~ signature fail:", signature.error);
-      console.log("🚀 ~ createProposeGameEvent ~ signature fail:", !signature.messageFields);
-      console.log("🚀 ~ createProposeGameEvent ~ signature fail:", !signature.signature);
       setIsLoading(false);
       return;
     }
+    console.log(
+      "🚀 ~ createProposeGameEvent ~ creating:"
+    );
     const sharedStateResponse = await createSharedState();
     console.log(
       "🚀 ~ createProposeGameEvent ~ sharedStateResponse:",
@@ -494,14 +496,6 @@ const Game: React.FC<IGame> = ({ selectedTeam }) => {
         account
       ) {
         const fields = Object(jsyaml.load(signature.messageFields));
-        const activePlayerIds = activePlayers.map((player) => {
-          return `${player.id}u8`;
-        });
-        console.log(
-          "🚀 ~ activePlayerIds ~ activePlayerIds:",
-          activePlayerIds,
-          toString()
-        );
 
         const dateTime = new Date().toISOString().replace(/\D/g, ""); // Removes all non-digit characters from the date string
         const numericSender = account?.address

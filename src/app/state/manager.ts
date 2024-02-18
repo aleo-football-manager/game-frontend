@@ -4,8 +4,8 @@ export const GAME_PROGRAM_ID = "football_game_v012.aleo";
 
 export const GAME_FUNCTIONS = {
   propose_game: "propose_game",
-  accept_game: "accept_game",
   submit_wager: "submit_wager",
+  accept_game: "accept_game",
   reveal_answer: "reveal_answer_game",
   finish_game: "finish_game",
   calculate_outcome: "calculate_outcome",
@@ -13,11 +13,13 @@ export const GAME_FUNCTIONS = {
 
 /// todo - update these
 export const transitionFees = {
-  propose_game: 0.01608,
-  accept_game: 0.02901,
-  submit_wager: 0.0086,
-  reveal_answer: 0.009,
-  finish_game: 0.0065,
+  propose_game: 0.017,
+  submit_wager: 0.0186,
+  accept_game: 0.03901,
+  calculate_outcome: 0.1,
+  reveal_answer: 0.1,
+  finish_game: 0.1,
+  testing: 0.5,
 };
 
 export type LoadingStatus = "idle" | "loading" | "success" | "error";

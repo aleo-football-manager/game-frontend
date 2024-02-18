@@ -22,8 +22,8 @@ export const useGameRecords = () => {
   const utilRecords = records?.filter(
     (record) => record.programId === "multiparty_pvp_utils_v015_avh.aleo"
   );
+  console.log("🚀 ~ useGameRecords ~ records grouped:", [gameNotifications, puzzleRecords, utilRecords]);
 
-  console.log([gameNotifications, puzzleRecords, utilRecords]);
 
   return { puzzleRecords, gameNotifications, utilRecords };
 };
