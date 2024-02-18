@@ -3,35 +3,42 @@
 import { useEffect, useState } from "react";
 import { useNewGameStore } from "../create-game/store";
 import { useGameStore } from "../state/gameStore";
+// import TheirTurn from '@components/TheirTurn';
+import YourTurn from '@components/YourTurn';
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { getAllPuzzleWalletEvents } from "@/utils";
+// import { getAllPuzzleWalletEvents } from "@/utils";
 import { Event } from "@puzzlehq/sdk";
 
-interface IYourGames {}
+interface IYourGames { }
 
-const YourGames: React.FC<IYourGames> = ({}) => {
+const YourGames: React.FC<IYourGames> = ({ }) => {
+
   const [allEvents, setAllEvents] = useState<Event[] | undefined>();
-  const getEvents = async () => {
-    const walletEvents = await getAllPuzzleWalletEvents();
-    setAllEvents(walletEvents!);
-  };
 
-  useEffect(() => {
-    getEvents();
-  }, []);
 
   const [yourTurn, theirTurn, totalBalance] = useGameStore((state) => [
     state.yourTurn,
     state.theirTurn,
     state.totalBalance,
   ]);
+  console.log("🚀 ~ yourTurn:", yourTurn);
+  console.log("🚀 ~ theirTurn:", theirTurn);
+  console.log("🚀 ~ totalBalance:", totalBalance);
+
   const [initialize] = useNewGameStore((state) => [state.initialize]);
 
   return (
     <div>
-      {allEvents?.map((event, index) => {
+      {yourTurn.length > 0 && <YourTurn games={yourTurn} />}
+      {/* {theirTurn.length > 0 && <TheirTurn games={theirTurn} />} */}
+      {yourTurn.length === 0 && theirTurn.length === 0 && (
+        <p className='self-center font-semibold'>
+          No ongoing games, start one with a friend!
+        </p>
+      )}
+      {/* {allEvents?.map((event, index) => {
         if (
           event.functionId == "propose_game" ||
           event.functionId == "accept_game"
@@ -76,7 +83,7 @@ const YourGames: React.FC<IYourGames> = ({}) => {
             </Card>
           );
         }
-      })}
+      })} */}
     </div>
   );
 };
