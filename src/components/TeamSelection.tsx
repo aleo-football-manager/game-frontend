@@ -383,7 +383,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
             <DialogHeader>
               <DialogTitle>Start Game</DialogTitle>
               <DialogDescription>
-                Enter your opponent's Aleo address and how much you are wagering for the game
+                Enter your opponent&apos;s Aleo address and how much you are wagering for the game
               </DialogDescription>
             </DialogHeader>
             <Input
