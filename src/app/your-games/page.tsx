@@ -31,7 +31,12 @@ const YourGames: React.FC<IYourGames> = ({ }) => {
 
   return (
     <div>
-      {yourTurn.length > 0 && <YourTurn games={yourTurn} />}
+      {/* {yourTurn.length > 0 && <YourTurn games={yourTurn} />} */}
+      {
+        yourTurn.length > 0 && yourTurn.map((game, index) => (
+          <YourTurn key={index} game={game} />
+        ))
+      }
       {/* {theirTurn.length > 0 && <TheirTurn games={theirTurn} />} */}
       {yourTurn.length === 0 && theirTurn.length === 0 && (
         <p className='self-center font-semibold'>
