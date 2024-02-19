@@ -18,7 +18,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game }) => {
         switch (game.gameAction) {
             case "Submit Wager":
                 // return <SubmitWagerButton game={game} />;
-                <Button
+                return <Button
                     size="sm"
                     color="yellow"
                 >
@@ -26,14 +26,14 @@ const YourTurn: React.FC<IYourTurn> = ({ game }) => {
                 </Button>
             case "Accept":
                 // return <AcceptGameButton game={game} />;
-                <Button
+                return <Button
                     size="sm"
                     color="yellow"
                 >
                     Accept
                 </Button>
             case "Reveal":
-                <Button
+                return <Button
                     size="sm"
                     color="yellow"
                 >
@@ -55,7 +55,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game }) => {
             // );
             case "Lose":
 
-                <Button
+                return <Button
                     size="sm"
                     color="yellow"
                 >
@@ -76,7 +76,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game }) => {
             //     </Button>
             // );
             case "Claim":
-                <Button
+                return <Button
                     size="sm"
                     color="yellow"
                 >
@@ -98,6 +98,15 @@ const YourTurn: React.FC<IYourTurn> = ({ game }) => {
             // );
         }
     };
-    return <div>YourTurn</div>;
+    return (
+        <div className='mb-2 grid w-full grid-cols-[1fr,auto,1fr] items-center gap-5'>
+            <div className='my-auto self-center text-left text-xs font-bold tracking-tight text-primary-pink max-sm:ml-2'>
+                {shortenAddress(vs)}
+            </div>
+            <div className='my-auto self-center text-left text-xs font-bold tracking-tight text-primary-pink max-sm:ml-2'>
+                {wager} pieces
+            </div>
+            <div className='flex justify-end'>{renderActionButton()}</div>
+        </div>);
 };
 export default YourTurn;
