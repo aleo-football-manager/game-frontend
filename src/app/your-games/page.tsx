@@ -39,19 +39,26 @@ const YourGames: React.FC<IYourGames> = ({}) => {
             </div>
           </div>
         )}
-        <Separator orientation="vertical" className="" />
         {theirTurn.length > 0 && (
-          <div className="flex flex-col gap-6 items-center w-1/2 justify-start">
-            <h2 className="tracking-tighter text-2xl font-bold">
-              Their Turn to Play
-            </h2>
+          <>
+            <Separator orientation="vertical" className="" />
+            <div className="flex flex-col gap-6 items-center w-1/2 justify-start">
+              <h2 className="tracking-tighter text-2xl font-bold">
+                Their Turn to Play
+              </h2>
 
-            <div className="grid grid-cols-3 gap-4">
-              {theirTurn.map((game, index) => (
-                <YourTurn key={index} game={game} isFinished={false} />
-              ))}
+              <div className="grid grid-cols-3 gap-4">
+                {theirTurn.map((game, index) => (
+                  <YourTurn key={index} game={game} isFinished={false} />
+                ))}
+              </div>
             </div>
-          </div>
+          </>
+        )}
+        {yourTurn.length === 0 && theirTurn.length === 0 && (
+          <p className="self-center font-semibold">
+            No ongoing games, start one with a friend!
+          </p>
         )}
       </div>
 
@@ -74,11 +81,7 @@ const YourGames: React.FC<IYourGames> = ({}) => {
       )}
 
       {/* {theirTurn.length > 0 && <TheirTurn games={theirTurn} />} */}
-      {yourTurn.length === 0 && theirTurn.length === 0 && (
-        <p className="self-center font-semibold">
-          No ongoing games, start one with a friend!
-        </p>
-      )}
+
       {/* {allEvents?.map((event, index) => {
         if (
           event.functionId == "propose_game" ||

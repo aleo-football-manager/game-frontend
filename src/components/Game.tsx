@@ -645,6 +645,10 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
   }, [selectedFormation]);
 
   const startGame = async () => {
+    if (!account?.address) {
+      toast.error("Please connect your wallet");
+      return;
+    }
     if (activePlayers.length !== 11) {
       toast.info("Please select 11 players");
     } else {
