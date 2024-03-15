@@ -40,53 +40,53 @@ const YourGames: React.FC<IYourGames> = ({}) => {
   return (
     <div className="flex flex-col justify-center gap-4 items-center">
       {/* {yourTurn.length > 0 && <YourTurn games={yourTurn} />} */}
-      <div className="p-4 flex relative gap-2 h-[80vh] w-full mt-6 justify-center">
-        <ScrollArea className=" overflow-y-auto h-[80vh] p-5">
-          <Tabs
-            // value={tab}
-            // onValueChange={onTabChange}
-            defaultValue="your"
-            className="max-w-4xl "
-          >
-            <div className="flex w-full items-center justify-center">
-              <TabsList className="flex border  w-fit absolute bottom-0 bg-transparent gap-4  items-center justify-center">
-                {tabs.map((tab) => (
-                  <TabsTrigger
-                    key={tab.id}
-                    className={`${
-                      activeTab === tab.id ? "text-white" : "text-black"
-                    } relative rounded-full px-3 py-1.5 text-sm font-medium dark:text-white outline-sky-400 transition focus-visible:outline-2 `}
-                    onClick={() => setActiveTab(tab.id)}
-                    style={{
-                      WebkitTapHighlightColor: "transparent",
-                    }}
-                    value={tab.id}
-                  >
-                    {activeTab === tab.id && (
-                      <motion.span
-                        layoutId="bubble"
-                        className="absolute inset-0 z-10 bg-white mix-blend-difference"
-                        style={{ borderRadius: 8 }}
-                        transition={{
-                          type: "spring",
-                          bounce: 0.2,
-                          duration: 0.6,
-                        }}
-                      />
-                    )}
-                    {tab.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
+      <div className="p-4 flex relative gap-2 h-[85vh] w-full mt-6 justify-center">
+        <Tabs
+          // value={tab}
+          // onValueChange={onTabChange}
+          defaultValue="your"
+          className="max-w-4xl "
+        >
+          <div className="flex w-full max-w-4xl items-center justify-center">
+            <TabsList className="flex border  w-fit absolute bottom-0 shadow-lg bg-transparent gap-4  items-center justify-center">
+              {tabs.map((tab) => (
+                <TabsTrigger
+                  key={tab.id}
+                  className={`${
+                    activeTab === tab.id ? "text-white" : "text-black"
+                  } relative rounded-full px-3 py-1.5 text-sm font-medium dark:text-white outline-sky-400 transition focus-visible:outline-2 `}
+                  onClick={() => setActiveTab(tab.id)}
+                  style={{
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                  value={tab.id}
+                >
+                  {activeTab === tab.id && (
+                    <motion.span
+                      layoutId="bubble"
+                      className="absolute inset-0 z-10 bg-white mix-blend-difference"
+                      style={{ borderRadius: 8 }}
+                      transition={{
+                        type: "spring",
+                        bounce: 0.2,
+                        duration: 0.6,
+                      }}
+                    />
+                  )}
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
+          <ScrollArea className=" overflow-y-auto h-[75vh] p-5">
             <TabsContent value={"your"}>
               {yourTurn.length !== 0 ? (
-                <div className="flex flex-col gap-6 relative items-center w-1/2 justify-start text-center">
+                <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
                   <h2 className="tracking-tighter text-2xl font-bold">
                     Your Turn to Play
                   </h2>
 
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-4 p-2">
                     {yourTurn.map((game, index) => (
                       <YourTurn key={index} game={game} isFinished={false} />
                     ))}
@@ -100,14 +100,14 @@ const YourGames: React.FC<IYourGames> = ({}) => {
                 </div>
               )}
             </TabsContent>
-            <TabsContent value={"their"}>
+            <TabsContent value={"their"} className="">
               {theirTurn.length !== 0 ? (
-                <div className="flex flex-col gap-6 items-center w-1/2 justify-start">
+                <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
                   <h2 className="tracking-tighter text-2xl font-bold">
                     Their Turn to Play
                   </h2>
 
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-4 p-2">
                     {theirTurn.map((game, index) => (
                       <YourTurn key={index} game={game} isFinished={false} />
                     ))}
@@ -123,12 +123,12 @@ const YourGames: React.FC<IYourGames> = ({}) => {
             </TabsContent>
             <TabsContent value={"finished"}>
               {finished.length !== 0 ? (
-                <div className="flex flex-col gap-6 items-center w-1/2 justify-start">
+                <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
                   <h2 className="tracking-tighter text-2xl font-bold">
                     Finished Games
                   </h2>
 
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-4 p-2">
                     {finished.map((game, index) => (
                       <YourTurn key={index} game={game} isFinished={true} />
                     ))}
@@ -142,15 +142,15 @@ const YourGames: React.FC<IYourGames> = ({}) => {
                 </div>
               )}
             </TabsContent>
-          </Tabs>
-          {/* {activePlayersCount !== 11 && (
+          </ScrollArea>
+        </Tabs>
+        {/* {activePlayersCount !== 11 && (
               <div className="w-full flex justify-center">
                 <Button className="w-1/2" variant={"outline"}>
                   Start Game
                 </Button>
               </div>
             )} */}
-        </ScrollArea>
       </div>
 
       {/* {allEvents?.map((event, index) => {

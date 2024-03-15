@@ -306,7 +306,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
     }
   };
 
-// TODO: Use results from fetchGameOutcome as input
+  // TODO: Use results from fetchGameOutcome as input
   const fetchGameOutcomeObject = async () => {
     try {
       const response = await fetch(
@@ -477,7 +477,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       (r) => r.data.ix === "8u32.private"
     );
 
-
     console.log("game_record", game_record);
     console.log("joint_piece_winner", joint_piece_winner);
     console.log("piece_joint_stake", piece_joint_stake);
@@ -636,7 +635,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
     //   </div>
     //   <div className="flex justify-end">{renderActionButton()}</div>
     // </div>
-    <Card className="  max-w-sm grid-span-1 w-full shadow-lg rounded-xl overflow-hidden">
+    <Card className="  w-52 grid-span-1 shadow-lg rounded-xl overflow-hidden">
       <div className="flex flex-col gap-4 justify-center items-center  p-6  sm:space-y-0">
         {/* <div className="flex w-full flex-col justify-between">
           <div>
