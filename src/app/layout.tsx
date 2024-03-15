@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Super Leo Lig",
   description: "ZK Football Manager game",
-  metadataBase: new URL("https://superleolig.vercel.app"),
+  metadataBase: new URL("https://superleolig.online"),
 };
 
 export default function RootLayout({
