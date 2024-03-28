@@ -103,7 +103,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
     (state) => [state.largestPiece, state.availableBalance, state.currentGame]
   );
   const msAddress = currentGame?.gameNotification.recordData.game_multisig;
-  console.log("msAddress", msAddress);
   const { msPuzzleRecords: recordsPuzzle, msGameRecords: recordsGame } =
     useMsRecords(msAddress);
   const [msPuzzleRecords, setMsPuzzleRecords] = useState<
@@ -299,7 +298,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       );
       const dataText = await response.json(); // Change this to text(), as JSON parsing fails
 
-      console.log("Fetched data:", dataText); // Log the fetched data
       return dataText;
     } catch (error) {
       console.error("There was an error fetching the game outcome:", error);
@@ -315,7 +313,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
 
       const dataText = await response.text(); // Change this to text(), as JSON parsing fails
 
-      console.log("Fetched data:", dataText); // Log the fetched data
 
       // Convert the dataText string into valid JSON format
       const cleanedDataString = dataText
@@ -323,21 +320,11 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
         .replace(/'/g, '"') // Replace single quotes with double quotes to make it valid JSON
         .replace(/(\w+)\s*:/g, '"$1":') // Add double quotes around keys
         .replace(/:\s*([\w"]+)/g, ':"$1"'); // Add double quotes around values
-      console.log("Cleaned data:", cleanedDataString); // Log the cleaned data
       const cleanedDataStringWithoutQuotes = cleanedDataString.slice(1, -1);
-      console.log(
-        "🚀 ~ fetchGameOutcome ~ cleanedDataStringWithoutQuotes:",
-        cleanedDataStringWithoutQuotes
-      );
 
       const cleanedDataStringTrimmed = cleanedDataStringWithoutQuotes.trim();
-
-      console.log("Cleaned data trimmed:", cleanedDataStringTrimmed);
-
-      // Parse the JSON data into an object
-      // const data = JSON.parse(cleanedDataString.toString());
+      
       const data = parseJson(cleanedDataStringTrimmed);
-      console.log("Parsed data:", data);
 
       const matchOutcome = {
         address_home: data.address_home,
@@ -348,7 +335,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
         goals_away: parseInt(data.goals_away.replace("u64", "")),
       };
 
-      console.log("goals", matchOutcome.goals_home, matchOutcome.goals_away);
       setMatchOutcome(matchOutcome);
 
       return data;
@@ -458,10 +444,10 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
   };
 
   const createFinishGameEvent = async () => {
-    console.log("createFinishGameEvent");
-    console.log("game", game);
-    console.log("msPuzzleRecords", msPuzzleRecords);
-    console.log("msGameRecords", msGameRecords);
+    // console.log("createFinishGameEvent");
+    // console.log("game", game);
+    // console.log("msPuzzleRecords", msPuzzleRecords);
+    // console.log("msGameRecords", msGameRecords);
 
     if (!game || !msPuzzleRecords || !msGameRecords) return;
 
@@ -477,10 +463,10 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       (r) => r.data.ix === "8u32.private"
     );
 
-    console.log("game_record", game_record);
-    console.log("joint_piece_winner", joint_piece_winner);
-    console.log("piece_joint_stake", piece_joint_stake);
-    console.log("joint_piece_time_claim", joint_piece_time_claim);
+    // console.log("game_record", game_record);
+    // console.log("joint_piece_winner", joint_piece_winner);
+    // console.log("piece_joint_stake", piece_joint_stake);
+    // console.log("joint_piece_time_claim", joint_piece_time_claim);
 
     if (
       !game_record ||
@@ -612,9 +598,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
         return (
           <Button
             onClick={() => {
-              console.log("click claim");
               setCurrentGame(game);
-              console.log("click claim game", game);
               createFinishGameEvent();
             }}
             variant="outline"
