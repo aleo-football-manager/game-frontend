@@ -292,7 +292,6 @@ export const getGameState = (game: GameNotification): GameState => {
     case "10u32": // CalculatedOutcomeNotification
       return `challenger:4`;
     case "11u32": {
-      console.log("game.recordData.winner", game.recordData.winner);
       const isWinner = game.recordData.winner === game.recordData.owner;
       return isWinner ? `winner:5` : `loser:5`;
     }
