@@ -65,7 +65,7 @@ const PlayerDetails: React.FC<IPlayerDetails> = ({ playerDetails }) => {
 
   return (
     <Card className=" relative rounded-lg ">
-      <CardHeader className="flex  flex-row gap-4 justify-center items-center">
+      <CardHeader className="flex max-sm:flex-col flex-row gap-4 justify-center items-center">
         <div className="flex flex-col items-center text-center">
           <Image
             alt="player"
@@ -87,7 +87,7 @@ const PlayerDetails: React.FC<IPlayerDetails> = ({ playerDetails }) => {
             <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
               <PolarGrid />
               <PolarAngleAxis dataKey="attribute" />
-              <Tooltip />
+              <Tooltip labelClassName="" />
               <Radar
                 dataKey="A"
                 stroke="#8884d8"
@@ -98,7 +98,7 @@ const PlayerDetails: React.FC<IPlayerDetails> = ({ playerDetails }) => {
           </ResponsiveContainer>
         </div>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4 mt-2 ">
+      <CardContent className="grid max-sm:grid-cols-1 grid-cols-2 max-sm:gap-2 gap-4 mt-2 ">
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <p>Attack:</p>
