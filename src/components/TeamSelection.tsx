@@ -304,7 +304,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
         initialSlide={teams.length / 2}
         // navigation={true}
         modules={[EffectCoverflow, Navigation]}
-        className="mySwiper max-w-md h-fit lg:max-w-3xl lg:h-full"
+        className="mySwiper max-w-[320px] md:max-w-2xl h-fit lg:max-w-3xl lg:h-full"
       >
         {/* {artists.map((artist) => (
           <SwiperSlide key={artist.id} className={SwiperSlideClass}>
@@ -315,7 +315,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
           return (
             <SwiperSlide
               key={team.name}
-              className="max-w-fit flex flex-col gap-8 items-center justify-center rounded-3xl font-bold"
+              className="max-w-fit max-md:max-w-[320px]  min-h-full flex flex-col gap-8 items-center justify-center rounded-3xl font-bold"
             >
               <TeamCard
                 key={team.name}
@@ -327,32 +327,36 @@ const TeamSelection: React.FC<ITeamSelection> = ({
           );
         })}
       </Swiper>
-      <div className="hidden sm:block  absolute top-[45%]  left-48">
-        <Button
-          size={"icon"}
-          className="rounded-full"
-          variant={"ghost"}
-          onClick={() => swiperRef.current?.slidePrev()}
-          title="Previous"
-        >
-          <FaChevronLeft size={24} />
-        </Button>
-      </div>
-      <div className="hidden sm:block  absolute top-[45%]  right-48">
-        <Button
-          size={"icon"}
-          className="rounded-full"
-          variant={"ghost"}
-          onClick={() => {
-            swiperRef.current?.slideNext();
-          }}
-          title="Next"
-        >
-          {" "}
-          <FaChevronRight size={24} />
-        </Button>
-        {/* <div className="flex flex-row gap-1"> */}
-        {/* </div> */}
+      <div className="w-full max-w-5xl absolute top-[45%] flex justify-between">
+        <div className="   ">
+          <Button
+            size={"icon"}
+            className="rounded-full"
+            variant={"ghost"}
+            onClick={() => swiperRef.current?.slidePrev()}
+            disabled={selectedTeam === 0}
+            title="Previous"
+          >
+            <FaChevronLeft size={24} />
+          </Button>
+        </div>
+        <div className="   ">
+          <Button
+            size={"icon"}
+            className="rounded-full"
+            variant={"ghost"}
+            disabled={selectedTeam === teams.length - 1}
+            onClick={() => {
+              swiperRef.current?.slideNext();
+            }}
+            title="Next"
+          >
+            {" "}
+            <FaChevronRight size={24} />
+          </Button>
+          {/* <div className="flex flex-row gap-1"> */}
+          {/* </div> */}
+        </div>
       </div>
       {!isChallenged ? (
         <Dialog>

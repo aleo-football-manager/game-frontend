@@ -47,14 +47,14 @@ const YourGames: React.FC<IYourGames> = ({}) => {
           defaultValue="your"
           className="max-w-4xl "
         >
-          <div className="flex w-full max-w-4xl items-center justify-center">
-            <TabsList className="flex border  w-fit absolute bottom-0 shadow-lg bg-transparent gap-4  items-center justify-center">
+          <div className="flex w-[100vh] items-center justify-center">
+            <TabsList className="flex border  w-fit h-fit absolute bottom-0 shadow-lg bg-transparent gap-4  items-center justify-center">
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.id}
                   className={`${
                     activeTab === tab.id ? "text-white" : "text-black"
-                  } relative rounded-full px-3 py-1.5 text-sm font-medium dark:text-white outline-sky-400 transition focus-visible:outline-2 `}
+                  } relative rounded-full px-3 py-3 text-base tracking-tighter font-semibold dark:text-white outline-sky-400 transition focus-visible:outline-2 `}
                   onClick={() => setActiveTab(tab.id)}
                   style={{
                     WebkitTapHighlightColor: "transparent",
@@ -78,15 +78,15 @@ const YourGames: React.FC<IYourGames> = ({}) => {
               ))}
             </TabsList>
           </div>
-          <ScrollArea className=" overflow-y-auto h-[75vh] p-5">
-            <TabsContent value={"your"}>
+          <ScrollArea className=" overflow-y-auto w-full h-[75vh] p-5">
+            <TabsContent value={"your"} className="w-full">
               {yourTurn.length !== 0 ? (
                 <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
                   <h2 className="tracking-tighter text-2xl font-bold">
                     Your Turn to Play
                   </h2>
 
-                  <div className="grid grid-cols-3 gap-4 p-2">
+                  <div className="grid  max-md:justify-items-center w-full max-sm:grid-cols-1 max-md:grid-cols-2   md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]  gap-4 p-2">
                     {yourTurn.map((game, index) => (
                       <YourTurn key={index} game={game} isFinished={false} />
                     ))}
@@ -100,14 +100,14 @@ const YourGames: React.FC<IYourGames> = ({}) => {
                 </div>
               )}
             </TabsContent>
-            <TabsContent value={"their"} className="">
+            <TabsContent value={"their"} className="w-full">
               {theirTurn.length !== 0 ? (
                 <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
                   <h2 className="tracking-tighter text-2xl font-bold">
                     Their Turn to Play
                   </h2>
 
-                  <div className="grid grid-cols-3 gap-4 p-2">
+                  <div className="grid  max-md:justify-items-center w-full max-sm:grid-cols-1 max-md:grid-cols-2   md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]  gap-4 p-2">
                     {theirTurn.map((game, index) => (
                       <YourTurn key={index} game={game} isFinished={false} />
                     ))}
@@ -121,14 +121,17 @@ const YourGames: React.FC<IYourGames> = ({}) => {
                 </div>
               )}
             </TabsContent>
-            <TabsContent value={"finished"}>
+            <TabsContent value={"finished"} className="w-full">
               {finished.length !== 0 ? (
                 <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
                   <h2 className="tracking-tighter text-2xl font-bold">
                     Finished Games
                   </h2>
 
-                  <div className="grid grid-cols-3 gap-4 p-2">
+                  <div className="grid  max-md:justify-items-center w-full max-sm:grid-cols-1 max-md:grid-cols-2   md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))]  gap-4 p-2">
+                    {finished.map((game, index) => (
+                      <YourTurn key={index} game={game} isFinished={true} />
+                    ))}
                     {finished.map((game, index) => (
                       <YourTurn key={index} game={game} isFinished={true} />
                     ))}

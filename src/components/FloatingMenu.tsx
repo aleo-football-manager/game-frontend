@@ -89,21 +89,21 @@ export const MobileMenuItem = ({
   return (
     <div onMouseEnter={() => setActive(true)} className="relative ">
       <motion.p
-        transition={{ duration: 0.2 }}
+        // transition={{ duration: 0.2 }}
         className="cursor-pointer text-black hover:opacity-100 z-50 dark:text-white"
       >
         <span>{item}</span>
       </motion.p>
       {active && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={transition}
+        // initial={{ opacity: 0, scale: 0.85, y: 0 }}
+        // animate={{ opacity: 1, scale: 1, y: 0 }}
+        // transition={transition}
         >
           {active && (
             <div className="absolute top-[calc(70%_+_1rem)] left-1/2 transform -translate-x-1/2">
               <motion.div
-                transition={transition}
+                // transition={transition}
                 layoutId="active" // layoutId ensures smooth animation
                 className="bg-white dark:bg-black backdrop-blur-sm rounded-2xl overflow-hidden border border-black/[0.2] dark:border-white/[0.2] shadow-xl"
               >

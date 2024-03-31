@@ -189,7 +189,7 @@ const TeamCard: React.FC<ITeamCard> = ({ team, selectedTeam, index }) => {
         <Tooltip defaultOpen={index !== selectedTeam ? false : true}>
           <TooltipTrigger asChild>
             <Card
-              className="flex flex-col gap-8   text-black  items-center border bg-neutral-100 cursor-pointer  p-2.5 w-80 h-[50vh] mt-4 rounded-[10px] border-solid  border-[#ddd]"
+              className="flex flex-col gap-8 max-md:max-w-[300px] text-black  items-center border bg-neutral-100 cursor-pointer  p-2.5 w-80 h-96 mt-4 rounded-[10px] border-solid  border-[#ddd]"
               onClick={() => {
                 //   onTeamSelected(team.name);
                 //   setIsGameStarted(true);

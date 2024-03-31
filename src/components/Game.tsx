@@ -28,7 +28,7 @@ import { motion } from "framer-motion";
 import jsyaml from "js-yaml";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useKeyPressEvent, useWindowSize } from "react-use";
 import { toast } from "sonner";
 import { useNewGameStore } from "../app/create-game/store";
@@ -597,6 +597,13 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
   // };
   const activePlayersCount = activePlayers.filter(Boolean).length;
 
+  // const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  //   console.log("e click", e.currentTarget);
+
+  //   if (e.currentTarget.id !== "field") {
+  //     setIsSelecting(false);
+  //   }
+  // };
   const movePlayer = (playerId: number, gridIndex: number, slot: number) => {
     const playerIndexOnBench = benchPlayers.findIndex(
       (p) => p?.id === playerId
@@ -824,9 +831,9 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
 
   return (
     // <DndProvider backend={HTML5Backend}>
-    <div className="flex flex-col gap-6 xl:gap-0 xl:grid xl:grid-rows-2 max-sm:px-6 px-20 py-8  h-[90vh] xl:overflow-hidden w-full ">
-      <div className=" relative  grid grid-cols-1  xl:grid-cols-2 gap-y-8  bg-center max-h-[85vh]  bg-no-repeat w-full   ">
-        <div className=" col-span-1 xl:col-span-4  h-80 relative">
+    <div className="flex z-0 flex-col gap-6 xl:gap-0 xl:grid xl:grid-rows-2 max-sm:px-6 px-20 py-8  h-[90vh] xl:overflow-hidden w-full ">
+      <div className="z-40 relative  grid grid-cols-1  xl:grid-cols-2 gap-y-8  bg-center max-h-[85vh]  bg-no-repeat w-full   ">
+        <div id="field" className=" col-span-1 xl:col-span-4  h-80 relative">
           <Image className="absolute z-0" src="/field.svg" fill alt="field" />
           <div className="grid grid-rows-4  items-start justify-center h-[100%] z-10">
             <div className="row-span-1">
@@ -943,7 +950,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
 
             {["GK", "DEF", "MID", "ATT"].map((position) => (
               <TabsContent key={position} value={position}>
-                <div className=" grid max-md:items-center max-md:justify-center max-md:justify-items-center max-sm:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] grid-cols-[repeat(auto-fill,minmax(150px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2  h-64 p-6 ">
+                <div className=" grid  max-md:justify-items-center max-sm:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] grid-cols-[repeat(auto-fill,minmax(150px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2  h-64 p-6 ">
                   {filteredPlayers!.map((player) => {
                     return (
                       <Player
@@ -978,8 +985,8 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
             )} */}
         </ScrollArea>
       </div>
-      <div className="col-start-1 mt-4 justify-center  py-4 items-center xl:col-start-3 col-span-1 row-start-1  row-span-2 flex flex-col gap-6">
-        <Card className="shadow max-w-lg xl:w-full">
+      <div className="col-start-1 w-full mt-4 justify-center  py-4 items-center xl:col-start-3 col-span-1 row-start-1  row-span-2 flex flex-col gap-6">
+        <Card className="shadow w-full max-w-lg xl:w-full">
           <CardContent className="py-2">
             <div className="flex items-center justify-center flex-col">
               <h1 className="text-2xl font-bold">{teams[selectedTeam].name}</h1>

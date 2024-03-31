@@ -146,9 +146,14 @@ const Player: React.FC<IPlayer> = ({
     <>
       {isActive ? (
         <div className="absolute top-8 md:top-[50px] text-white w-[100%] flex items-center justify-center">
-          <p className=" text-sm md:text-base font-semibold tracking-tight">
+          {/* <p className=" text-sm md:text-base backdrop-blur-sm font-semibold tracking-tight">
             {player?.name}
-          </p>
+          </p> */}
+          <div className="text-base  font-bold">
+            <span className="bg-clip-text backdrop-blur-sm text-transparent bg-gradient-to-b from-gray-300  z-10 to-white">
+              {player?.name}
+            </span>
+          </div>
           <span className="absolute  text-base md:left-[68px]  bottom-6 tracking-tighter md:text-2xl font-semibold">
             {playerRating}
           </span>

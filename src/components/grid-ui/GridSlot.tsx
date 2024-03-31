@@ -40,6 +40,7 @@ const GridSlot: React.FC<IGridSlot> = ({
   const jerseyColor = isGoalkeeper ? "rgba(255,0,0,1)" : jersey;
   const isValid = isValidPlacement(selectedPlayer?.position, rowIndex);
   const { width } = useWindowSize();
+  // console.log("isselect", isSelecting, isValid);
 
   return (
     <div
@@ -84,7 +85,7 @@ const GridSlot: React.FC<IGridSlot> = ({
             fill
           />
         </span>
-        {isSelecting && isValid && width > 768 && (
+        {isSelecting && isValid && width > 768 && !player && (
           <span className=" absolute left-[25%] md:left-[35%] top-[20%]">
             <CgArrowsExchangeAlt className="h-6 fill-white text-white w-6" />
           </span>

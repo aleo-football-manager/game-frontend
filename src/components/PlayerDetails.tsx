@@ -8,6 +8,7 @@ import { LuSword } from "react-icons/lu";
 import { MdShield } from "react-icons/md";
 
 import { TbBrandSpeedtest } from "react-icons/tb";
+import { useWindowSize } from "react-use";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -30,6 +31,7 @@ interface IPlayerDetails {
 }
 
 const PlayerDetails: React.FC<IPlayerDetails> = ({ playerDetails }) => {
+  const { width } = useWindowSize();
   const data = [
     {
       attribute: "Attack",
@@ -82,9 +84,17 @@ const PlayerDetails: React.FC<IPlayerDetails> = ({ playerDetails }) => {
             </CardDescription>
           </div>
         </div>
-        <div className=" w-80 h-[200px]  rounded">
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+        <div className="w-80 h-[200px] flex items-center justify-center  rounded">
+          <ResponsiveContainer
+            width={width > 400 ? "100%" : "80%"}
+            height={width > 400 ? "100%" : "80%"}
+          >
+            <RadarChart
+              cx="50%"
+              cy="50%"
+              outerRadius={width > 400 ? "80%" : "70%"}
+              data={data}
+            >
               <PolarGrid />
               <PolarAngleAxis dataKey="attribute" />
               <Tooltip labelClassName="" />
