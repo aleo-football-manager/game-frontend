@@ -71,7 +71,7 @@ const GridSlot: React.FC<IGridSlot> = ({
         </div>
       )}
       <div>
-        <span className="w-12 left-4 absolute h-12">
+        <span className="w-10 h-10  md:w-12 left-6 md:left-4 absolute md:h-12">
           {/* <JerseySVG fillColor={jerseyColor} /> */}
           <Image
             // src={`/svg/${isGoalkeeper ? "jersey_gk.svg" : jersey}`}

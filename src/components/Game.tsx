@@ -29,7 +29,7 @@ import jsyaml from "js-yaml";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useKeyPressEvent } from "react-use";
+import { useKeyPressEvent, useWindowSize } from "react-use";
 import { toast } from "sonner";
 import { useNewGameStore } from "../app/create-game/store";
 import {
@@ -122,6 +122,7 @@ const messageToSign = "Let's play Super Leo Lig";
 const nonce = "1234567field"; // todo make this random?
 
 const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
+  const { width } = useWindowSize();
   const ALEO_NETWORK_URL = "https://node.puzzle.online/testnet3";
   const { account } = useAccount();
   const { balances } = useBalance({});
@@ -394,7 +395,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
     }
     setLoadingMessage("Creating Multisig...");
     const sharedStateResponse = await createSharedState();
-    
+
     if (sharedStateResponse.error) {
       setIsLoading(false);
       return;
@@ -463,8 +464,6 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
       }
     }
   };
-
-
 
   // // TODO AVH DELETE THIS LATER. ONLY FOR TESTING PURPOSES
   // const createDefaultProposeGameEvent = async () => {
@@ -825,8 +824,8 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
 
   return (
     // <DndProvider backend={HTML5Backend}>
-    <div className="grid grid-rows-2 px-20 py-8  h-[90vh] overflow-hidden w-full ">
-      <div className=" relative  grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4  gap-y-8  bg-center max-h-[85vh]  bg-no-repeat w-full   ">
+    <div className="flex flex-col gap-6 xl:gap-0 xl:grid xl:grid-rows-2  px-20 py-8  h-[90vh] xl:overflow-hidden w-full ">
+      <div className=" relative  grid grid-cols-1  xl:grid-cols-2 gap-y-8  bg-center max-h-[85vh]  bg-no-repeat w-full   ">
         <div className=" col-span-1 xl:col-span-4  h-80 relative">
           <Image className="absolute z-0" src="/field.svg" fill alt="field" />
           <div className="grid grid-rows-4  items-start justify-center h-[100%] z-10">
@@ -893,17 +892,95 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
           </div>
         </div>
       </div>
-      <div className="col-start-1 xl:col-start-3 col-span-1 row-start-1 row-span-2 flex flex-col gap-6">
-        <Card className="shadow">
+      <div className="xl:row-start-2 flex flex-col w-full h-[270px] mt-12   border-2 max-sm:px-0.5 px-4 rounded-md">
+        {/* <div className="flex flex-col px-4 whitespace-nowrap">
+            <h1 className="text-xl tracking-tighter">
+              Current Attack : {totalAttack}
+            </h1>
+            <h1 className="text-xl tracking-tighter">
+              Current Defence : {totalDefense}
+            </h1>
+          </div> */}
+
+        <ScrollArea className=" overflow-y-auto h-64 max-sm:px-0.5 max-sm:py-2 p-5">
+          <Tabs
+            value={tab}
+            onValueChange={onTabChange}
+            defaultValue="all"
+            className="max-w-5xl   "
+          >
+            <div className="flex w-full items-center justify-center">
+              <TabsList className="flex w-fit  bg-transparent border gap-1 md:gap-4  items-center justify-center">
+                {tabs.map((tab) => (
+                  <TabsTrigger
+                    key={tab.id}
+                    className={`${
+                      activeTab === tab.id ? "text-white" : "text-black"
+                    } relative rounded-full  max-sm:px-1 px-3 py-1.5 text-xs md:text-sm font-medium  dark:text-white transition focus-visible:outline-2 `}
+                    onClick={() => setActiveTab(tab.id)}
+                    style={{
+                      WebkitTapHighlightColor: "transparent",
+                    }}
+                    value={tab.id}
+                  >
+                    {activeTab === tab.id && (
+                      <motion.span
+                        layoutId="bubble"
+                        className="absolute inset-0 z-10 bg-white mix-blend-difference"
+                        style={{ borderRadius: 8 }}
+                        transition={{
+                          type: "spring",
+                          bounce: 0.2,
+                          duration: 0.6,
+                        }}
+                      />
+                    )}
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+
+            {["GK", "DEF", "MID", "ATT"].map((position) => (
+              <TabsContent key={position} value={position}>
+                <div className=" grid items-center justify-center justify-items-center max-sm:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] grid-cols-[repeat(auto-fill,minmax(150px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2  h-64 p-6 ">
+                  {filteredPlayers!.map((player) => {
+                    return (
+                      <Player
+                        key={player.name}
+                        selectedPlayer={selectedPlayer!}
+                        onPlayerClick={() => {
+                          setMovingPlayer(player);
+                          setSelectedPlayer({
+                            id: player.id,
+                            position: player.position,
+                          });
+                          setIsSelecting(true);
+                        }}
+                        player={player}
+                        movePlayer={(playerId, slot) =>
+                          movePlayer(playerId, 1, slot)
+                        }
+                        isActive={false}
+                      />
+                    );
+                  })}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+          {/* {activePlayersCount !== 11 && (
+              <div className="w-full flex justify-center">
+                <Button className="w-1/2" variant={"outline"}>
+                  Start Game
+                </Button>
+              </div>
+            )} */}
+        </ScrollArea>
+      </div>
+      <div className="col-start-1 justify-center  py-4 items-center xl:col-start-3 col-span-1 row-start-1  row-span-2 flex flex-col gap-6">
+        <Card className="shadow max-w-lg xl:w-full">
           <CardContent className="py-2">
-            {/* <div className="absolute left-4 top-[90px]">
-              <Button variant={"outline"} size={"icon"} className="">
-                <IoIosArrowBack
-                  onClick={() => setIsGameStarted(false)}
-                  className="w-6 h-6"
-                />
-              </Button>
-            </div> */}
             <div className="flex items-center justify-center flex-col">
               <h1 className="text-2xl font-bold">{teams[selectedTeam].name}</h1>
               <Image
@@ -914,20 +991,12 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
                 className=""
               />
 
-              {/* <div className="-ml-4">
-                  {renderStars(
-                    calculateStarRating(
-                      teams[selectedTeam].attack,
-                      teams[selectedTeam].defense
-                    )
-                  )}
-                </div> */}
-              <div className="flex w-full justify-between">
+              <div className="flex flex-col md:flex-row justify-center max-md:gap-4 max-md:mt-2 items-center w-full md:justify-between">
                 <SelectFormation
                   selectedFormation={selectedFormation}
                   setSelectedFormation={setSelectedFormation}
                 />
-                <div className="mr-10">
+                <div className="">
                   {renderStars(
                     calculateStarRating(
                       teams[selectedTeam].attack,
@@ -970,92 +1039,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
         {/* Idea: Allow only to click start when multisig = path
         Also check if signed in wallet = opponent from game */}
       </div>
-      <div className="row-start-2 flex flex-col w-full h-[270px] mt-12   border-2 px-4 rounded-md">
-        {/* <div className="flex flex-col px-4 whitespace-nowrap">
-            <h1 className="text-xl tracking-tighter">
-              Current Attack : {totalAttack}
-            </h1>
-            <h1 className="text-xl tracking-tighter">
-              Current Defence : {totalDefense}
-            </h1>
-          </div> */}
 
-        <ScrollArea className=" overflow-y-auto h-64 p-5">
-          <Tabs
-            value={tab}
-            onValueChange={onTabChange}
-            defaultValue="all"
-            className="max-w-3xl   "
-          >
-            <div className="flex w-full items-center justify-center">
-              <TabsList className="flex w-fit  bg-transparent border  gap-4  items-center justify-center">
-                {tabs.map((tab) => (
-                  <TabsTrigger
-                    key={tab.id}
-                    className={`${
-                      activeTab === tab.id ? "text-white" : "text-black"
-                    } relative rounded-full  px-3 py-1.5 text-sm font-medium  dark:text-white transition focus-visible:outline-2 `}
-                    onClick={() => setActiveTab(tab.id)}
-                    style={{
-                      WebkitTapHighlightColor: "transparent",
-                    }}
-                    value={tab.id}
-                  >
-                    {activeTab === tab.id && (
-                      <motion.span
-                        layoutId="bubble"
-                        className="absolute inset-0 z-10 bg-white mix-blend-difference"
-                        style={{ borderRadius: 8 }}
-                        transition={{
-                          type: "spring",
-                          bounce: 0.2,
-                          duration: 0.6,
-                        }}
-                      />
-                    )}
-                    {tab.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-
-            {["GK", "DEF", "MID", "ATT"].map((position) => (
-              <TabsContent key={position} value={position}>
-                <div className=" grid grid-cols-5 gap-2  h-64 p-6 ">
-                  {filteredPlayers!.map((player) => {
-                    return (
-                      <Player
-                        key={player.name}
-                        selectedPlayer={selectedPlayer!}
-                        onPlayerClick={() => {
-                          setMovingPlayer(player);
-                          setSelectedPlayer({
-                            id: player.id,
-                            position: player.position,
-                          });
-                          setIsSelecting(true);
-                        }}
-                        player={player}
-                        movePlayer={(playerId, slot) =>
-                          movePlayer(playerId, 1, slot)
-                        }
-                        isActive={false}
-                      />
-                    );
-                  })}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-          {/* {activePlayersCount !== 11 && (
-              <div className="w-full flex justify-center">
-                <Button className="w-1/2" variant={"outline"}>
-                  Start Game
-                </Button>
-              </div>
-            )} */}
-        </ScrollArea>
-      </div>
       <Dialog defaultOpen>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader className="flex gap-1 w-full flex-col justify-center items-center">

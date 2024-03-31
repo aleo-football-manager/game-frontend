@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { calculateAttribute } from "@/utils";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { useWindowSize } from "react-use";
 import { PlayerType, SelectedPlayer } from "./Game";
 import { Badge } from "./ui/badge";
 
@@ -85,6 +86,7 @@ const Player: React.FC<IPlayer> = ({
   onPlayerClick,
   selectedPlayer,
 }) => {
+  const { width } = useWindowSize();
   const [playerRating, setPlayerRating] = useState(0);
 
   const handleDoubleClick = () => {
@@ -140,13 +142,14 @@ const Player: React.FC<IPlayer> = ({
     //     </div>
     //   </div>
     // </Card>
+
     <>
       {isActive ? (
         <div className="absolute top-[50px] text-white w-[100%] flex items-center justify-center">
           <p className=" text-base font-semibold tracking-tight">
             {player?.name}
           </p>
-          <span className="absolute left-[68px] bottom-6 tracking-tighter text-2xl font-semibold">
+          <span className="absolute left-[68px] bottom-6 tracking-tighter text-lg xl:text-2xl font-semibold">
             {playerRating}
           </span>
         </div>
@@ -154,79 +157,39 @@ const Player: React.FC<IPlayer> = ({
         <Card
           onClick={onPlayerClick}
           onDoubleClick={handleDoubleClick}
-          className={`w-full   cursor-pointer h-24  flex justify-center items-center    shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-200 ease-in-out`}
+          className={` min-w-[80px] max-sm:max-w-[155px] md:min-w-[120px] w-full   cursor-pointer h-24  flex justify-center items-center  shadow-md rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-200 ease-in-out`}
         >
           {selectedPlayer.id === player.id && (
             <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-red-400 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
           )}
-          <CardContent className="group  flex w-[100%] relative items-center  justify-center  ">
-            <div className="  flex flex-col absolute bottom-3 -left-[30%] items-center  w-full">
-              <Badge
-                className={`${
-                  positionColors[player.position as keyof typeof positionColors]
-                } hover:${
-                  positionColors[player.position as keyof typeof positionColors]
-                }  text-white dark:bg-opacity-60 px-1.5`}
-              >
-                {player.position}
-              </Badge>
-            </div>
-            <div className="flex flex-col w-16 absolute left-7 mt-3 h-24 items-center  justify-end  ">
-              {/* <Avatar className=" w-10 h-10 ">
-                <AvatarImage src={player.image} />
-                <AvatarFallback className="hidden">FP</AvatarFallback>
-              </Avatar> */}
-              <Image alt="player" width={24} height={24} src={player.image} />
-              <h1 className=" font-bold text-base dark:text-white/80">
+          <CardContent className="group min-w-[80px] px-2 py-3 flex   w-[100%] relative items-center  justify-between  ">
+            {/* {width > 768 && ( */}
+            <Badge
+              className={`${
+                positionColors[player.position as keyof typeof positionColors]
+              } hover:${
+                positionColors[player.position as keyof typeof positionColors]
+              }  text-white dark:bg-opacity-60 px-1.5`}
+            >
+              {player.position}
+            </Badge>
+            {/* )} */}
+            <div className="flex flex-col  w-full xl:w-16 xl:-ml-1 h-16 xl:h-24 items-center  justify-center  ">
+              <Image
+                alt="player"
+                className=""
+                // fill
+                width={24}
+                height={24}
+                src={player.image}
+              />
+              <h1 className=" font-bold text-sm xl:text-base dark:text-white/80">
                 {player.name}
               </h1>
             </div>
-            <h3 className="font-bold absolute dark:text-white/80 right-2 text-xl">
+            <h3 className="font-bold  dark:text-white/80  text-xl">
               {playerRating ? playerRating : 0}
             </h3>
-            {/* <Badge
-            className="items-center whitespace-nowrap py-2"
-            variant="outline"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-3.5 w-3.5 mr-2"
-            >
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-            </svg>
-            {player.defenseScore}
-          </Badge>
-          <Badge
-            className="items-center whitespace-nowrap py-2"
-            variant="outline"
-          >
-            <svg
-              className="h-3.5 w-3.5 mr-2"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
-              <line x1="13" x2="19" y1="19" y2="13" />
-              <line x1="16" x2="20" y1="16" y2="20" />
-              <line x1="19" x2="21" y1="21" y2="19" />
-            </svg>
-            {player.attackScore}
-          </Badge> */}
           </CardContent>
         </Card>
       )}
