@@ -90,7 +90,7 @@ export const MobileMenuItem = ({
     <div onMouseEnter={() => setActive(true)} className="relative ">
       <motion.p
         transition={{ duration: 0.2 }}
-        className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
+        className="cursor-pointer text-black hover:opacity-100 z-50 dark:text-white"
       >
         <span>{item}</span>
       </motion.p>
@@ -101,7 +101,7 @@ export const MobileMenuItem = ({
           transition={transition}
         >
           {active && (
-            <div className="absolute top-[calc(100%_+_1rem)] left-1/2 transform -translate-x-1/2">
+            <div className="absolute top-[calc(70%_+_1rem)] left-1/2 transform -translate-x-1/2">
               <motion.div
                 transition={transition}
                 layoutId="active" // layoutId ensures smooth animation
@@ -132,7 +132,7 @@ export const MobileMenu = ({
   return (
     <nav
       onMouseLeave={() => setActive(false)} // resets the state
-      className="relative rounded-full boder border-transparent dark:bg-black dark:border-white/[0.2] bg-white shadow-input flex justify-center space-x-4 px-4 py-4 "
+      className="relative rounded-full border border-transparent dark:bg-black dark:border-white/[0.2] bg-white shadow-input flex justify-center space-x-4 px-4  z-50"
     >
       {children}
     </nav>

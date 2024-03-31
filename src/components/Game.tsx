@@ -943,7 +943,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
 
             {["GK", "DEF", "MID", "ATT"].map((position) => (
               <TabsContent key={position} value={position}>
-                <div className=" grid items-center justify-center justify-items-center max-sm:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] grid-cols-[repeat(auto-fill,minmax(150px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2  h-64 p-6 ">
+                <div className=" grid max-md:items-center max-md:justify-center max-md:justify-items-center max-sm:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] grid-cols-[repeat(auto-fill,minmax(150px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(130px,1fr))] gap-2  h-64 p-6 ">
                   {filteredPlayers!.map((player) => {
                     return (
                       <Player
@@ -978,7 +978,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
             )} */}
         </ScrollArea>
       </div>
-      <div className="col-start-1 justify-center  py-4 items-center xl:col-start-3 col-span-1 row-start-1  row-span-2 flex flex-col gap-6">
+      <div className="col-start-1 mt-4 justify-center  py-4 items-center xl:col-start-3 col-span-1 row-start-1  row-span-2 flex flex-col gap-6">
         <Card className="shadow max-w-lg xl:w-full">
           <CardContent className="py-2">
             <div className="flex items-center justify-center flex-col">

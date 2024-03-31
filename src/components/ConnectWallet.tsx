@@ -94,7 +94,7 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
   }, [account]);
 
   return (
-    <div className="flex gap-6 z-50 items-center">
+    <div className="flex  max-sm:gap-2 gap-6 z-50 items-center">
       {account ? (
         <Dialog>
           <DialogTrigger asChild>
@@ -198,7 +198,11 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
         </Button>
       )}
       {/* <div className="hidden md:flex"> */}
-      <a target="_blank" href="https://twitter.com/SuperLeoLig/">
+      <a
+        target="_blank"
+        className="max-sm:hidden flex"
+        href="https://twitter.com/SuperLeoLig/"
+      >
         <FaXTwitter className="text-black stroke-current w-5 h-5 dark:text-white" />
       </a>
       <ThemeToggle />
