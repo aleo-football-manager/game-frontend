@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { CgArrowsExchangeAlt } from "react-icons/cg";
 import { GiCancel } from "react-icons/gi";
+import { useWindowSize } from "react-use";
 import { PlayerType, SelectedPlayer } from "../Game";
 import Player from "../Player";
 interface IGridSlot {
@@ -38,6 +39,8 @@ const GridSlot: React.FC<IGridSlot> = ({
 }) => {
   const jerseyColor = isGoalkeeper ? "rgba(255,0,0,1)" : jersey;
   const isValid = isValidPlacement(selectedPlayer?.position, rowIndex);
+  const { width } = useWindowSize();
+
   return (
     <div
       onClick={() => {
@@ -46,14 +49,14 @@ const GridSlot: React.FC<IGridSlot> = ({
           movePlayer(selectedPlayer.id, rowIndex, slot);
         }
       }}
-      className={`w-20 h-20 relative ${
+      className={`max-sm:w-10  max-sm:h-10 w-12 h-12 md:w-20 md:h-20 relative ${
         isValid && !player && "hover:scale-105 duration-200 transition"
       }  flex  flex-col ${isDisabled ? "cursor-not-allowed" : ""} ${
         isSelecting ? " " : ""
       }`}
     >
       {isSelecting && (
-        <div className="absolute flex justify-end mx-auto w-[90%] -top-2 left-1">
+        <div className="absolute flex justify-end mx-auto w-[90%] -top-4 md:-top-2 left-1">
           {/* <FaExchangeAlt
             onClick={() => {
               if (player) {
@@ -71,7 +74,7 @@ const GridSlot: React.FC<IGridSlot> = ({
         </div>
       )}
       <div>
-        <span className="w-10 h-10  md:w-12 left-6 md:left-4 absolute md:h-12">
+        <span className="max-sm:w-8  max-sm:h-8 w-10 h-10  md:w-12 left-1 md:left-4 absolute md:h-12">
           {/* <JerseySVG fillColor={jerseyColor} /> */}
           <Image
             // src={`/svg/${isGoalkeeper ? "jersey_gk.svg" : jersey}`}
@@ -81,8 +84,8 @@ const GridSlot: React.FC<IGridSlot> = ({
             fill
           />
         </span>
-        {isSelecting && isValid && (
-          <span className=" absolute left-[35%] top-[20%]">
+        {isSelecting && isValid && width > 768 && (
+          <span className=" absolute left-[25%] md:left-[35%] top-[20%]">
             <CgArrowsExchangeAlt className="h-6 fill-white text-white w-6" />
           </span>
         )}

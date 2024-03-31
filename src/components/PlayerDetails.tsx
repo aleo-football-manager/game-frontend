@@ -64,7 +64,7 @@ const PlayerDetails: React.FC<IPlayerDetails> = ({ playerDetails }) => {
   ];
 
   return (
-    <Card className=" relative rounded-lg ">
+    <Card className=" relative max-sm:max-w-xs rounded-lg ">
       <CardHeader className="flex max-sm:flex-col flex-row gap-4 justify-center items-center">
         <div className="flex flex-col items-center text-center">
           <Image

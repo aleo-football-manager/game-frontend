@@ -41,7 +41,7 @@ const Grid: React.FC<IGrid> = ({
 
   return (
     <div
-      className={`w-80 md:w-[100vh] xl:w-[90vh] justify-items-center items-center content-center grid grid-cols-${formation}`}
+      className={`max-sm:w-72  w-[70vh] justify-items-center items-center content-center grid grid-cols-${formation}`}
     >
       {grid.map((player, index) => (
         <GridSlot
