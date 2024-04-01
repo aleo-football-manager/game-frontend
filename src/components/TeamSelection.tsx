@@ -1,12 +1,7 @@
 "use client";
 import { Step, useAcceptGameStore } from "@/app/accept-game/store";
 import { useGameStore } from "@/app/state/gameStore";
-import {
-  GAME_FUNCTIONS,
-  GAME_PROGRAM_ID,
-  SubmitWagerInputs,
-  transitionFees,
-} from "@/app/state/manager";
+import { transitionFees } from "@/app/state/manager";
 import { useEventHandling } from "@/hooks/eventHandling";
 import { useMsRecords } from "@/hooks/msRecords";
 import { teams } from "@/utils/team-data";
@@ -14,13 +9,10 @@ import {
   EventType,
   RecordsFilter,
   getRecords,
-  importSharedState,
   requestCreateEvent,
-  requestSignature,
   useAccount,
   zodAddress,
 } from "@puzzlehq/sdk";
-import jsyaml from "js-yaml";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -197,59 +189,59 @@ const TeamSelection: React.FC<ITeamSelection> = ({
     }
   };
 
-  const createSubmitWagerEvent = async () => {
-    if (
-      !acceptGameInputs?.opponent_wager_record ||
-      !acceptGameInputs.key_record ||
-      !acceptGameInputs.game_req_notification
-    ) {
-      return;
-    }
-    setLoading(true);
-    setError(undefined);
-    const signature = await requestSignature({ message: messageToSign });
-    setConfirmStep(ConfirmStep.Signing);
-    if (!signature.messageFields || !signature.signature) {
-      setError("Signature or signature message fields not found");
-      setLoading(false);
-      return;
-    }
-    setConfirmStep(ConfirmStep.RequestingEvent);
-    const messageFields = Object(jsyaml.load(signature.messageFields));
+  // const createSubmitWagerEvent = async () => {
+  //   if (
+  //     !acceptGameInputs?.opponent_wager_record ||
+  //     !acceptGameInputs.key_record ||
+  //     !acceptGameInputs.game_req_notification
+  //   ) {
+  //     return;
+  //   }
+  //   setLoading(true);
+  //   setError(undefined);
+  //   const signature = await requestSignature({ message: messageToSign });
+  //   setConfirmStep(ConfirmStep.Signing);
+  //   if (!signature.messageFields || !signature.signature) {
+  //     setError("Signature or signature message fields not found");
+  //     setLoading(false);
+  //     return;
+  //   }
+  //   setConfirmStep(ConfirmStep.RequestingEvent);
+  //   const messageFields = Object(jsyaml.load(signature.messageFields));
 
-    const newInputs: Partial<SubmitWagerInputs> = {
-      opponent_wager_record: inputsSubmitWager.opponent_wager_record,
-      key_record: inputsSubmitWager.key_record,
-      game_req_notification: inputsSubmitWager.game_req_notification,
-      opponent_message_1: messageFields.field_1,
-      opponent_message_2: messageFields.field_2,
-      opponent_message_3: messageFields.field_3,
-      opponent_message_4: messageFields.field_4,
-      opponent_message_5: messageFields.field_5,
-      opponent_sig: signature.signature,
-    };
-    const game_multisig_seed = currentGame?.utilRecords?.[0].data.seed ?? "";
-    const { data } = await importSharedState(game_multisig_seed);
+  //   const newInputs: Partial<SubmitWagerInputs> = {
+  //     opponent_wager_record: inputsSubmitWager.opponent_wager_record,
+  //     key_record: inputsSubmitWager.key_record,
+  //     game_req_notification: inputsSubmitWager.game_req_notification,
+  //     opponent_message_1: messageFields.field_1,
+  //     opponent_message_2: messageFields.field_2,
+  //     opponent_message_3: messageFields.field_3,
+  //     opponent_message_4: messageFields.field_4,
+  //     opponent_message_5: messageFields.field_5,
+  //     opponent_sig: signature.signature,
+  //   };
+  //   const game_multisig_seed = currentGame?.utilRecords?.[0].data.seed ?? "";
+  //   const { data } = await importSharedState(game_multisig_seed);
 
-    setSubmitWagerInputs(newInputs);
-    const response = await requestCreateEvent({
-      type: EventType.Execute,
-      programId: GAME_PROGRAM_ID,
-      functionId: GAME_FUNCTIONS.submit_wager,
-      fee: transitionFees.submit_wager,
-      inputs: Object.values(newInputs),
-      address: acceptGameInputs.game_req_notification.owner, // opponent address
-    });
-    if (response.error) {
-      setError(response.error);
-      setLoading(false);
-    } else if (response.eventId) {
-      /// todo - other things here?
-      setEventIdSubmit(response.eventId);
-      setSubmitWagerInputs({ ...newInputs });
-      router.push(`/accept-game/${response.eventId}`);
-    }
-  };
+  //   setSubmitWagerInputs(newInputs);
+  //   const response = await requestCreateEvent({
+  //     type: EventType.Execute,
+  //     programId: GAME_PROGRAM_ID,
+  //     functionId: GAME_FUNCTIONS.submit_wager,
+  //     fee: transitionFees.submit_wager,
+  //     inputs: Object.values(newInputs),
+  //     address: acceptGameInputs.game_req_notification.owner, // opponent address
+  //   });
+  //   if (response.error) {
+  //     setError(response.error);
+  //     setLoading(false);
+  //   } else if (response.eventId) {
+  //     /// todo - other things here?
+  //     setEventIdSubmit(response.eventId);
+  //     setSubmitWagerInputs({ ...newInputs });
+  //     router.push(`/accept-game/${response.eventId}`);
+  //   }
+  // };
 
   // useEffect(() => {
   //   if (
@@ -264,10 +256,28 @@ const TeamSelection: React.FC<ITeamSelection> = ({
   // }, [account]);
 
   const handleStartGame = () => {
-    if (account?.address && bet <= availableBalance) {
-      setIsGameStarted(true);
+    if (!isChallenged) {
+      if (bet <= 0) {
+        toast.error("Wager can't be equal to or lower than 0");
+        return;
+      }
+      if (opponentError) {
+        toast.error("Please select an opponent");
+        return;
+      }
+      if (account?.address && bet <= availableBalance) {
+        setIsGameStarted(true);
+      } else {
+        toast.info("Please connect your Puzzle Wallet to play");
+        return;
+      }
     } else {
-      toast.info("Please connect your Puzzle Wallet to play");
+      if (account?.address) {
+        setIsGameStarted(true);
+      } else {
+        toast.info("Please connect your Puzzle Wallet to play");
+        return;
+      }
     }
   };
 
@@ -386,9 +396,13 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                 </Label>
                 <Input
                   id="amount"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setBet(parseInt(e.currentTarget.value))
-                  }
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (isNaN(parseFloat(e.currentTarget.value))) {
+                      setBet(0);
+                    } else {
+                      setBet(parseInt(e.currentTarget.value));
+                    }
+                  }}
                   className="col-span-3 outline-none  ring-offset-0"
                   value={bet}
                 />
@@ -412,7 +426,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                   </Button>
                 </div>
               ) : (
-                <div className="relative">
+                <div className="relative flex flex-col">
                   <Slider
                     className="mt-6"
                     onValueChange={(e) => setBet(e[0])}
@@ -422,47 +436,50 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                     max={availableBalance}
                     step={1}
                   />
-                  {/* Min label */}
-                  <span className="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-7">
-                    0
-                  </span>
-                  {/* Max label */}
-                  <span className="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-7">
-                    {availableBalance}
-                  </span>
+                  <div className="w-full mt-0.5 flex justify-between py-1">
+                    <span className="text-sm text-gray-500 dark:text-gray-400 ">
+                      0
+                    </span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400 ">
+                      {availableBalance}
+                    </span>
+                  </div>
+                  <div className="w-full flex py-2">
+                    <Button
+                      onClick={() => setBet(Math.floor(availableBalance / 4))}
+                      variant={"outline"}
+                      className="w-1/4 tracking-tighter"
+                    >
+                      25%
+                    </Button>
+                    <Button
+                      onClick={() => setBet(Math.floor(availableBalance / 2))}
+                      variant={"outline"}
+                      className="w-1/4 tracking-tighter"
+                    >
+                      50%
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        setBet(Math.floor((availableBalance / 4) * 3))
+                      }
+                      variant={"outline"}
+                      className="w-1/4 tracking-tighter"
+                    >
+                      75%
+                    </Button>
+                    <Button
+                      onClick={() => setBet(availableBalance)}
+                      variant={"outline"}
+                      className="w-1/4 tracking-tighter"
+                    >
+                      100%
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
             <div className="flex w-full justify-center  items-center ">
-              {/* <Button
-              variant="outline"
-              className="relative w-48 overflow-hidden bg-gradient-to-r from-blue-300 via-fuchsia-400 to-yellow-600"
-              onClick={() => {
-                const number = getRandomNumber();
-                setBet(number);
-              }}
-            >
-              <motion.span
-                layout
-                initial={{
-                  x: Math.random() * 100 - 50, // Random initial x position between -50 and 50
-                  y: Math.random() * 60 - 30, // Random initial y position between -30 and 30
-                }}
-                animate={{
-                  x: Math.random() * 100 - 50, // Random destination x position between -50 and 50
-                  y: Math.random() * 60 - 30, // Random destination y position between -30 and 30
-                  z: Math.random(),
-                }}
-                className="absolute  bg-clip-text bg-transparent"
-                transition={{
-                  repeatType: "reverse",
-                  repeat: Infinity,
-                  duration: 2,
-                }}
-              >
-                Feeling Lucky!
-              </motion.span>
-            </Button> */}
               {availableBalance !== 0 && (
                 <Button
                   onClick={handleStartGame}
