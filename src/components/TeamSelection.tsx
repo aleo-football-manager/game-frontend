@@ -15,7 +15,9 @@ import {
 } from "@puzzlehq/sdk";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import { CiCircleRemove } from "react-icons/ci";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useLocalStorage } from "react-use";
 import { toast } from "sonner";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -24,6 +26,7 @@ import { EffectCoverflow, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { z } from "zod";
 import { useNewGameStore } from "../app/create-game/store";
+import { truncateAddress } from "./ConnectWallet";
 import TeamCard from "./TeamCard";
 import { Button } from "./ui/button";
 import {
@@ -36,6 +39,15 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { Slider } from "./ui/slider";
 interface ITeamSelection {
   setSelectedTeam: (val: number) => void;
@@ -90,6 +102,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
   // const [isChallenged, setIsChallenged] = useState(false);
   const { account } = useAccount();
   const { setInputs, inputs } = useNewGameStore();
+  const [savedOpponents, setSavedOpponents] = useLocalStorage("opponents", []);
   const [availableBalance, largestPiece, currentGame] = useGameStore(
     (state) => [state.availableBalance, state.largestPiece, state.currentGame]
   );
@@ -115,6 +128,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
   const { msPuzzleRecords, msGameRecords } = useMsRecords(msAddress);
   const [confirmStep, setConfirmStep] = useState(ConfirmStep.Signing);
   const router = useRouter();
+
   const { loading, error, event, setLoading, setError } = useEventHandling({
     id: eventIdSubmit,
     stepName: "Submit Wager",
@@ -161,6 +175,14 @@ const TeamSelection: React.FC<ITeamSelection> = ({
 
     // Update inputs only if both values are valid
     if (wagerAmountResult.success && opponentResult.success) {
+      //@ts-ignore
+      setSavedOpponents((prevState: string[]) => {
+        if (!prevState.includes(opponentResult.data)) {
+          return [...prevState, opponentResult.data];
+        } else {
+          return prevState;
+        }
+      });
       setInputs({
         challenger_wager_amount: wagerAmountResult.data.toString(),
         opponent: opponentResult.data,
@@ -181,7 +203,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
           amount: "1000u64",
           address: account?.address!,
         }),
-        address: account?.address, // opponent address
+        address: account?.address,
       });
       setLoading(false);
     } catch (error) {
@@ -381,11 +403,50 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                 wagering for the game
               </DialogDescription>
             </DialogHeader>
-            <Input
-              type="text"
-              onChange={(e) => handleOpponentChange(e)}
-              placeholder="Opponent address"
-            />
+            <div className="relative">
+              <Input
+                type="text"
+                value={opponent}
+                onChange={(e) => handleOpponentChange(e)}
+                placeholder="Opponent address"
+                className="w-full fill-input"
+              />
+              <span
+                onClick={() => setOpponent("")}
+                className="absolute px-1 cursor-pointer backdrop-blur-3xl right-1 top-1/4"
+              >
+                <CiCircleRemove className="h-5 w-5 " />
+              </span>
+            </div>
+            {savedOpponents?.length! > 0 && opponent === "" && (
+              <Select
+                onValueChange={(value) => {
+                  console.log("value", value);
+                  setOpponent(value);
+                }}
+
+                // defaultValue="4-4-2"
+              >
+                <SelectTrigger className="w-full ">
+                  <SelectValue
+                    className=""
+                    placeholder="Select from previous opponents"
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Previous Opponents</SelectLabel>
+                    {savedOpponents?.map((opponent) => {
+                      return (
+                        <SelectItem value={opponent}>
+                          {truncateAddress(opponent)}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
             {opponentError && (
               <p className="text-red-500 text-sm">{opponentError}</p>
             )}
@@ -406,8 +467,9 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                   className="col-span-3 outline-none  ring-offset-0"
                   value={bet}
                 />
-                <p className="absolute text-xs tracking-tighter right-4">
-                  Puzzle Token
+                <p className="absolute text-xl tracking-tighter right-4">
+                  {/* Puzzle Token */}
+                  &#129513;
                 </p>
               </div>
               {betError && <p className="text-red-500 text-sm">{betError}</p>}
