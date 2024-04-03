@@ -13,6 +13,7 @@ import {
   useAccount,
   zodAddress,
 } from "@puzzlehq/sdk";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { CiCircleRemove } from "react-icons/ci";
@@ -277,6 +278,27 @@ const TeamSelection: React.FC<ITeamSelection> = ({
   //   }
   // }, [account]);
 
+  const getButtonFillPercentage = () => {
+    return (bet / availableBalance) * 100;
+  };
+
+  const variants = {
+    initial: {
+      background:
+        "linear-gradient(to right, #32a852 0%, #32a852 0%, transparent 0%)",
+    },
+    animate: {
+      background: `linear-gradient(to right, #32a852 0%, #32a852 ${getButtonFillPercentage()}%, transparent ${getButtonFillPercentage()}%)`,
+      // transition: { duration: 0.5 },
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 25,
+        ease: "easeInOut",
+      },
+    },
+  };
+
   const handleStartGame = () => {
     if (!isChallenged) {
       if (bet <= 0) {
@@ -506,18 +528,27 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                       {availableBalance}
                     </span>
                   </div>
-                  <div className="w-full flex py-2">
+                  <motion.div
+                    className={`w-full   flex rounded-lg border my-2`}
+                    variants={variants}
+                    initial="initial"
+                    animate="animate"
+                  >
+                    {/* <div
+                      className={`w-96 absolute  z-20`}
+                    ></div> */}
+
                     <Button
                       onClick={() => setBet(Math.floor(availableBalance / 4))}
-                      variant={"outline"}
-                      className="w-1/4 tracking-tighter"
+                      variant={"ghost"}
+                      className={`w-1/4 hover:bg-transparent border-r-2 rounded-none border-dashed border-opacity-5 tracking-tighter`}
                     >
                       25%
                     </Button>
                     <Button
                       onClick={() => setBet(Math.floor(availableBalance / 2))}
-                      variant={"outline"}
-                      className="w-1/4 tracking-tighter"
+                      variant={"ghost"}
+                      className={`w-1/4 hover:bg-transparent border-r-2 rounded-none border-dashed border-opacity-5 tracking-tighter`}
                     >
                       50%
                     </Button>
@@ -525,19 +556,19 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                       onClick={() =>
                         setBet(Math.floor((availableBalance / 4) * 3))
                       }
-                      variant={"outline"}
-                      className="w-1/4 tracking-tighter"
+                      variant={"ghost"}
+                      className={`w-1/4 hover:bg-transparent border-r-2 rounded-none border-dashed border-opacity-5 tracking-tighter`}
                     >
                       75%
                     </Button>
                     <Button
                       onClick={() => setBet(availableBalance)}
-                      variant={"outline"}
-                      className="w-1/4 tracking-tighter"
+                      variant={"ghost"}
+                      className={`w-1/4 hover:bg-transparent  tracking-tighter`}
                     >
                       100%
                     </Button>
-                  </div>
+                  </motion.div>
                 </div>
               )}
             </div>
