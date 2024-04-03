@@ -32,8 +32,8 @@ const Navbar = ({ className }: { className?: string }) => {
   return (
     <div
       className={` flex justify-between pt-3 md:pt-6 items-center md:items-end    px-6 ${
-        pathname === "/" ? "bg-[#E0F4FF]" : "bg-transparent"
-      }  dark:bg-black  w-full z-20 top-0 left-0`}
+        pathname === "/" ? "bg-[#E0F4FF] dark:bg-black" : "bg-transparent"
+      }    w-full z-20 top-0 left-0`}
     >
       {width < 950 ? (
         <MobileMenu setActive={setActive}>

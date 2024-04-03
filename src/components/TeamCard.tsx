@@ -45,7 +45,7 @@ export const calculateStarRating = (
   return roundedStarRating;
 };
 
-type ColorVariants = {
+export type ColorVariants = {
   [key: string]: string[];
 };
 
@@ -131,7 +131,7 @@ export const renderStars = (starRating: number) => {
   return <div className="flex ">{stars}</div>;
 };
 
-const colorVariants: ColorVariants = {
+export const colorVariants: ColorVariants = {
   "0": [
     "bg-[#c90000] hover:bg-[#c90000] border-[#c90000]",
     "bg-[#000] hover:bg-[#000] border-[#000]",

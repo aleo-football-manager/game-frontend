@@ -14,6 +14,7 @@ import {
   zodAddress,
 } from "@puzzlehq/sdk";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { CiCircleRemove } from "react-icons/ci";
@@ -28,7 +29,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { z } from "zod";
 import { useNewGameStore } from "../app/create-game/store";
 import { truncateAddress } from "./ConnectWallet";
-import TeamCard from "./TeamCard";
+import TeamCard, { ColorVariants } from "./TeamCard";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -88,6 +89,15 @@ const wagerAmountSchema = z
     (value) => Number(value) >= 0 && Number(value) <= 1000, // TODO change this to availableBalance?
     "Wager amount must be between 0 and 1000"
   );
+
+const colorVariants: ColorVariants = {
+  "0": ["from-[#c90000] to-[#000]", "bg-teamOne"],
+  "1": ["from-[#000] to-[#e7dbdb]", "bg-teamTwo"],
+  "2": ["from-[#e65800] to-[#0036e6]", "bg-teamThree"],
+  "3": ["from-[#0036e6] to-[#000000]", "bg-teamFour"],
+  "4": ["from-[#3402b3] to-[#000000]", "bg-teamFive"],
+  "5": ["from-[#02b35b] to-[#4902b3]", "bg-teamSix"],
+};
 
 const TeamSelection: React.FC<ITeamSelection> = ({
   selectedTeam,
@@ -326,7 +336,39 @@ const TeamSelection: React.FC<ITeamSelection> = ({
   };
 
   return (
-    <div className="flex flex-col h-fit  items-center gap-16 mt-16 justify-around ">
+    <div className="flex flex-col h-fit overflow-x-hidden items-center gap-16 mt-16 justify-around ">
+      <div
+        className={`absolute w-full h-[100vh] top-0 opacity-70 -z-10 bg-gradient-to-r ${colorVariants[selectedTeam][0]}  `}
+      ></div>
+      <div
+        className={`absolute w-full flex items-center blur-md justify-center h-full  top-0 left-0 opacity-40 -z-20    } `}
+      >
+        <div className="flex relative justify-between">
+          <Image
+            width={300}
+            height={300}
+            className="absolute -left-48 top-1/4"
+            key={0}
+            src={`/${teams[selectedTeam].image}.svg`}
+            alt={teams[selectedTeam].name}
+          />
+          <Image
+            width={730}
+            height={730}
+            key={1}
+            src={`/${teams[selectedTeam].image}.svg`}
+            alt={teams[selectedTeam].name}
+          />
+          <Image
+            width={300}
+            height={300}
+            key={2}
+            className="absolute -right-48 top-1/4"
+            src={`/${teams[selectedTeam].image}.svg`}
+            alt={teams[selectedTeam].name}
+          />
+        </div>
+      </div>
       <Swiper
         onSnapIndexChange={
           (newIndex) => {
