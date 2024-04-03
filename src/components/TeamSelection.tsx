@@ -460,7 +460,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                     <SelectLabel>Previous Opponents</SelectLabel>
                     {savedOpponents?.map((opponent) => {
                       return (
-                        <SelectItem value={opponent}>
+                        <SelectItem key={crypto.randomUUID()} value={opponent}>
                           {truncateAddress(opponent)}
                         </SelectItem>
                       );
