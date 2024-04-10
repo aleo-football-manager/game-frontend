@@ -101,7 +101,7 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
             <Button
               onClick={() => setIsWalletModal(true)}
               variant="outline"
-              className="tracking-wider text-base text-black dark:text-white font-semibold flex gap-2.5"
+              className="tracking-wider  text-base text-black dark:text-white font-semibold flex gap-2.5"
             >
               {address && (
                 <>
@@ -200,7 +200,7 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
       {/* <div className="hidden md:flex"> */}
       <a
         target="_blank"
-        className="max-sm:hidden flex"
+        className="max-sm:hidden flex -mt-0.5"
         href="https://twitter.com/SuperLeoLig/"
       >
         <FaXTwitter className="text-black stroke-current w-5 h-5 dark:text-white" />
