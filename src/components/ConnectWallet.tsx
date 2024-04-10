@@ -94,7 +94,7 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
   }, [account]);
 
   return (
-    <div className="flex  max-sm:gap-2 gap-6 z-50 items-center">
+    <div className="flex font-technor max-sm:gap-2 gap-6 z-50 items-center">
       {account ? (
         <Dialog>
           <DialogTrigger asChild>
@@ -113,11 +113,11 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
               )}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] font-supreme">
             <DialogHeader className="flex gap-1 w-full flex-col justify-center items-center">
               <Identicon string={account?.address!} size={32} />
 
-              <DialogTitle className="font-bold tracking-lighter dark:text-white  text-[#25292e] text-[18px] ">
+              <DialogTitle className="font-bold tracking-lighter font-technor dark:text-white  text-[#25292e] text-[18px] ">
                 {truncateAddress(account?.address!)}
               </DialogTitle>
 
@@ -145,7 +145,7 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
                 </Button>
               </div>
             )}
-            <div className="flex justify-center gap-4 mt-2 text-center w-full items-center">
+            <div className="flex justify-center font-technor gap-4 mt-2 text-center w-full items-center">
               <Button
                 onClick={copyAddress}
                 variant="outline"

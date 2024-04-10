@@ -90,7 +90,7 @@ const wagerAmountSchema = z
     "Wager amount must be between 0 and 1000"
   );
 
-const colorVariants: ColorVariants = {
+export const colorVariants: ColorVariants = {
   "0": ["from-[#c90000] to-[#000]", "bg-teamOne"],
   "1": ["from-[#000] to-[#e7dbdb]", "bg-teamTwo"],
   "2": ["from-[#e65800] to-[#0036e6]", "bg-teamThree"],

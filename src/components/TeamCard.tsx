@@ -2,14 +2,7 @@
 import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Badge } from "./ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
+import { Card } from "./ui/card";
 
 type Team = {
   name: string;
@@ -131,7 +124,7 @@ export const renderStars = (starRating: number) => {
   return <div className="flex ">{stars}</div>;
 };
 
-export const colorVariants: ColorVariants = {
+const badgeColorVariants: ColorVariants = {
   "0": [
     "bg-[#c90000] hover:bg-[#c90000] border-[#c90000]",
     "bg-[#000] hover:bg-[#000] border-[#000]",
@@ -184,68 +177,75 @@ const TeamCard: React.FC<ITeamCard> = ({ team, selectedTeam, index }) => {
   // ...
 
   return (
-    <div className="relative">
-      <TooltipProvider delayDuration={200}>
+    <div className="relative ">
+      {/* <TooltipProvider delayDuration={200}>
         <Tooltip defaultOpen={index !== selectedTeam ? false : true}>
-          <TooltipTrigger asChild>
-            <Card
-              className="flex flex-col gap-8 max-md:max-w-[300px] text-black  items-center border bg-neutral-100 cursor-pointer  p-2.5 w-80 h-96 mt-4 rounded-[10px] border-solid  border-[#ddd]"
-              onClick={() => {
-                //   onTeamSelected(team.name);
-                //   setIsGameStarted(true);
+          <TooltipTrigger asChild> */}
+      <Card
+        className={`flex flex-col  gap-8 max-md:max-w-[300px] text-black  items-center border cursor-pointer  p-2.5 w-80 h-96 mt-4 rounded-[10px] border-solid  border-[#ddd] bg-gray-50`}
+        onClick={() => {
+          //   onTeamSelected(team.name);
+          //   setIsGameStarted(true);
+        }}
+      >
+        <div className="flex items-center justify-center flex-col gap-4">
+          <h3 className="font-bold text-2xl font-technor tracking-tighter mt-2">
+            {team.name}
+          </h3>
+          <div className="w-36 h-36 rounded">
+            <Image
+              width={144}
+              height={144}
+              src={`/${team.image}.svg`}
+              alt={team.name}
+              className="w-full h-full"
+            />
+            <motion.div
+              className="relative right-[30%]"
+              layout
+              initial={{ width: "0%" }}
+              animate={controls}
+              transition={{
+                duration: 0.5,
               }}
             >
-              <div className="flex items-center justify-center flex-col gap-4">
-                <h3 className="font-bold text-2xl  tracking-tighter mt-2">
-                  {team.name}
-                </h3>
-                <div className="w-36 h-36 rounded">
-                  <Image
-                    width={144}
-                    height={144}
-                    src={`/${team.image}.svg`}
-                    alt={team.name}
-                    className="w-full h-full"
-                  />
-                  <motion.div
-                    className="relative right-[30%]"
-                    layout
-                    initial={{ width: "0%" }}
-                    animate={controls}
-                    transition={{
-                      duration: 0.5,
-                    }}
-                  >
-                    {renderStars(starRating)}
-                  </motion.div>
-                  <div className="flex items-center justify-around mt-6">
-                    <div className="flex flex-col gap-2 items-center">
-                      <h2 className="font-bold text-xl tracking-tighter underline">
-                        ATT
-                      </h2>
-                      <p className="text-lg tracking-tight">{team.attack}</p>
-                    </div>
-                    <div className="flex flex-col gap-2 items-center">
-                      <h2 className="font-bold text-xl tracking-tighter underline">
-                        MID
-                      </h2>
-                      <p className="text-lg tracking-tight">{team.midfield}</p>
-                    </div>
-                    <div className="flex flex-col gap-2 items-center">
-                      <h2 className="font-bold text-xl tracking-tighter underline">
-                        DEF
-                      </h2>
-                      <p className="text-lg tracking-tight">{team.defense}</p>
-                    </div>
-                  </div>
-                  {/* <Avatar>
+              {renderStars(starRating)}
+            </motion.div>
+            <div className="flex items-center  font-supreme justify-around mt-6">
+              <div className="flex flex-col  items-center">
+                <p className=" text-sm tracking-tight ">ATT</p>
+                <h2 className="text-2xl font-semibold tracking-tighter">
+                  {team.attack}
+                </h2>
+              </div>
+              <div className="flex flex-col  items-center">
+                <p className=" text-sm tracking-tight ">MID</p>
+                <h2 className="text-2xl font-semibold tracking-tighter">
+                  {team.midfield}
+                </h2>
+              </div>
+
+              <div className="flex flex-col  items-center">
+                <p className=" text-sm tracking-tight ">DEF</p>
+                <h2 className="text-2xl font-semibold tracking-tighter">
+                  {team.defense}
+                </h2>
+              </div>
+            </div>
+            {/* <div className="flex w-full">
+                    <p className="text-lg tracking-tight">
+                      {team.foundingYear}
+                    </p>
+                    <p className="text-lg tracking-tight">{team.fanbase}</p>
+                  </div> */}
+            {/* <Avatar>
           <AvatarImage src={`/${team.image}.png`} alt={team.name} />
           <AvatarFallback>{team.name}</AvatarFallback>
         </Avatar> */}
-                </div>
-              </div>
-            </Card>
-          </TooltipTrigger>
+          </div>
+        </div>
+      </Card>
+      {/* </TooltipTrigger>
           {index === selectedTeam && (
             <TooltipContent
               side="top"
@@ -264,14 +264,14 @@ const TeamCard: React.FC<ITeamCard> = ({ team, selectedTeam, index }) => {
                   <h3 className="text-sm font-semibold">Colors</h3>
                   <div className="flex space-x-2">
                     <Badge
-                      className={`${colorVariants[index][0]} `}
+                      className={`${badgeColorVariants[index][0]} `}
                       variant={"default"}
                     >
                       <p className="text-xs text-white">{team.colors[0]}</p>
                     </Badge>
                     <Badge
                       variant={"default"}
-                      className={`${colorVariants[index][1]} `}
+                      className={`${badgeColorVariants[index][1]} `}
                     >
                       <p className="text-xs text-white">{team.colors[1]}</p>
                     </Badge>
@@ -297,7 +297,7 @@ const TeamCard: React.FC<ITeamCard> = ({ team, selectedTeam, index }) => {
             </TooltipContent>
           )}
         </Tooltip>
-      </TooltipProvider>
+      </TooltipProvider> */}
     </div>
   );
 };

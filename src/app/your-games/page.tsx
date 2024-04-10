@@ -48,7 +48,7 @@ const YourGames: React.FC<IYourGames> = ({}) => {
           className="max-w-4xl "
         >
           <div className="flex w-[100vh] items-center justify-center">
-            <TabsList className="flex border  w-fit h-fit absolute bottom-0 shadow-lg bg-transparent gap-4  items-center justify-center">
+            <TabsList className="flex border font-technor  w-fit h-fit absolute bottom-0 shadow-lg bg-transparent gap-4  items-center justify-center">
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab.id}
@@ -78,11 +78,11 @@ const YourGames: React.FC<IYourGames> = ({}) => {
               ))}
             </TabsList>
           </div>
-          <ScrollArea className=" overflow-y-auto w-full h-[75vh] p-5">
+          <ScrollArea className=" overflow-y-auto font-supreme w-full h-[75vh] p-5">
             <TabsContent value={"your"} className="w-full">
               {yourTurn.length !== 0 ? (
-                <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
-                  <h2 className="tracking-tighter text-2xl font-bold">
+                <div className="flex flex-col   gap-6 -mt-2  items-center w-full justify-center">
+                  <h2 className="tracking-tighter text-2xl font-bold font-technor">
                     Your Turn to Play
                   </h2>
 
@@ -103,7 +103,7 @@ const YourGames: React.FC<IYourGames> = ({}) => {
             <TabsContent value={"their"} className="w-full">
               {theirTurn.length !== 0 ? (
                 <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
-                  <h2 className="tracking-tighter text-2xl font-bold">
+                  <h2 className="tracking-tighter text-2xl font-bold font-technor">
                     Their Turn to Play
                   </h2>
 
@@ -124,7 +124,7 @@ const YourGames: React.FC<IYourGames> = ({}) => {
             <TabsContent value={"finished"} className="w-full">
               {finished.length !== 0 ? (
                 <div className="flex flex-col  gap-6 -mt-2  items-center w-full justify-center">
-                  <h2 className="tracking-tighter text-2xl font-bold">
+                  <h2 className="tracking-tighter text-2xl font-bold font-technor">
                     Finished Games
                   </h2>
 

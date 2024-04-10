@@ -25,6 +25,13 @@ module.exports = {
         teamFive: "url('/team_assets/sunrise_logo.svg')",
         teamSix: "url('/team_assets/hearts_logo.svg')",
       },
+      fontFamily: {
+        sansSerif: ["var(--font-panamera)"],
+        phosphene: ["var(--font-phosphene)"],
+        weird: ["var(--font-uncutSans)"],
+        technor: ["var(--font-technor)"],
+        supreme: ["var(--font-supreme)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

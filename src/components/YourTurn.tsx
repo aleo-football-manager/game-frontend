@@ -313,7 +313,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
 
       const dataText = await response.text(); // Change this to text(), as JSON parsing fails
 
-
       // Convert the dataText string into valid JSON format
       const cleanedDataString = dataText
         .replace(/(\\n|\\)/g, "") // Remove escaped characters and line breaks
@@ -323,7 +322,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       const cleanedDataStringWithoutQuotes = cleanedDataString.slice(1, -1);
 
       const cleanedDataStringTrimmed = cleanedDataStringWithoutQuotes.trim();
-      
+
       const data = parseJson(cleanedDataStringTrimmed);
 
       const matchOutcome = {
@@ -630,11 +629,11 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
             </span>
           </div>
         </div> */}
-        <div className="flex flex-col gap-2.5 items-center ">
+        <div className="flex flex-col font-supreme gap-2.5 items-center ">
           {/* Game id= multisig address */}
 
           <Identicon string={truncateAddress(vs)} size={36} />
-          <span className="font-bold text-lg text-center">
+          <span className="font-bold font-technor text-lg text-center">
             {truncateAddress(vs)}
           </span>
           <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -645,7 +644,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
           </span>
         </div>
 
-        <div className="flex flex-col text-center w-full items-center justify-center">
+        <div className="flex flex-col font-supreme text-center w-full items-center justify-center">
           <div>
             <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-700">
               {isFinished && (
