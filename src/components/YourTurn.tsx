@@ -345,6 +345,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
 
   // TODO: Complete this
   const createCalculateOutcomeEvent = async () => {
+    setLoading(true);
     const reveal_answer_notification_record =
       game.gameNotification.recordWithPlaintext;
     const challenger_answer_record = game.utilRecords.find(
@@ -376,12 +377,15 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       /// todo - other things here?
       setEventIdSubmit(response.eventId);
       setCurrentGame(game);
+      setLoading(false);
       // setCalculateOutcomeInputs({ ...newInputs });
       // router.push(`/accept-game/${response.eventId}`);
     }
   };
 
   const createRevealAnswerEvent = async () => {
+    setLoading(true);
+
     const calculated_outcome_notification_record =
       game.gameNotification.recordWithPlaintext;
 
@@ -410,6 +414,8 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       !challenger_claim_signature ||
       !game_outcome
     ) {
+      setLoading(false);
+
       return;
     }
 
@@ -437,6 +443,8 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       /// todo - other things here?
       setEventIdSubmit(response.eventId);
       setCurrentGame(game);
+      setLoading(false);
+
       // setCalculateOutcomeInputs({ ...newInputs });
       // router.push(`/accept-game/${response.eventId}`);
     }
@@ -515,14 +523,14 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
                   setIsModal(true);
                 }}
                 variant="outline"
-                className="tracking-wider text-sm text-black dark:text-white font-semibold flex gap-2.5"
+                className="tracking-wider text-sm font-technor text-black dark:text-white font-semibold flex gap-2.5"
               >
                 Submit wager
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader className="flex gap-1 w-full flex-col justify-center items-center">
-                <DialogTitle className=" tracking-lighter dark:text-white  text-[#25292e] text-[18px] ">
+                <DialogTitle className=" tracking-lighter font-supreme dark:text-white  text-[#25292e] text-[18px] ">
                   Would you like to accept the challenge from{" "}
                   <span className="font-extrabold"> {truncateAddress(vs)}</span>{" "}
                   for <span className="font-extrabold">{wager}</span> pieces?
@@ -535,7 +543,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
                   disabled={loading}
                   onClick={createSubmitWagerEvent}
                   variant="outline"
-                  className="flex flex-col gap-1 hover:text-white dark:hover:bg-[#dbe0e5]  bg-[#fafafa]   h-fit justify-center items-center"
+                  className="flex flex-col gap-1 font-technor hover:text-white dark:hover:bg-[#dbe0e5]  bg-[#fafafa]   h-fit justify-center items-center"
                 >
                   <span className="text-xs font-semibold text-black">
                     Submit
@@ -557,7 +565,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
               );
             }}
             variant="outline"
-            className="tracking-wider text-sm text-black dark:text-white font-semibold flex gap-2.5"
+            className="tracking-wider font-technor text-sm text-black dark:text-white font-semibold flex gap-2.5"
           >
             Accept
           </Button>
@@ -565,9 +573,10 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       case "Calculate":
         return (
           <Button
+            disabled={loading}
             onClick={createCalculateOutcomeEvent} // TODO implement a simple wallet popup that consumes 2 records.
             variant="outline"
-            className="tracking-wider text-sm text-black dark:text-white font-semibold flex gap-2.5"
+            className="tracking-wider font-technor text-sm text-black dark:text-white font-semibold flex gap-2.5"
           >
             Calculate Outcome
           </Button>
@@ -575,9 +584,10 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       case "Reveal":
         return (
           <Button
+            disabled={loading}
             onClick={createRevealAnswerEvent} // TODO implement a simple wallet popup that consumes 2 records.
             variant="outline"
-            className="tracking-wider text-sm text-black dark:text-white font-semibold flex gap-2.5"
+            className="tracking-wider font-technor text-sm text-black dark:text-white font-semibold flex gap-2.5"
           >
             Reveal outcome
           </Button>
@@ -587,7 +597,8 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
         return (
           <Button
             variant="outline"
-            className="tracking-wider text-sm text-black dark:text-white font-semibold flex gap-2.5"
+            disabled
+            className="tracking-wider font-technor text-sm text-black dark:text-white font-semibold flex gap-2.5"
           >
             Lose
           </Button>
@@ -601,7 +612,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
               createFinishGameEvent();
             }}
             variant="outline"
-            className="tracking-wider text-sm text-black dark:text-white font-semibold flex gap-2.5"
+            className="tracking-wider font-technor text-sm text-black dark:text-white font-semibold flex gap-2.5"
           >
             Claim
           </Button>

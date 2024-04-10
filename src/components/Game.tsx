@@ -831,7 +831,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
 
   return (
     // <DndProvider backend={HTML5Backend}>
-    <div className="flex z-0 flex-col gap-6 xl:gap-0 xl:grid xl:grid-rows-2 max-sm:px-6 px-20 py-8  h-[90vh] xl:overflow-hidden w-full ">
+    <div className="flex z-0 flex-col font-technor gap-6 xl:gap-0 xl:grid xl:grid-rows-2 max-sm:px-6 px-20 py-8  h-[90vh] xl:overflow-hidden w-full ">
       <div className="z-40 relative  grid grid-cols-1  xl:grid-cols-2 gap-y-8  bg-center max-h-[85vh]  bg-no-repeat w-full   ">
         <div id="field" className=" col-span-1 xl:col-span-4  h-80 relative">
           <Image className="absolute z-0" src="/field.svg" fill alt="field" />
@@ -1048,7 +1048,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
       </div>
 
       <Dialog defaultOpen>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] font-supreme">
           <DialogHeader className="flex gap-1 w-full flex-col justify-center items-center">
             <DialogTitle>How to play?</DialogTitle>
             <DialogDescription>
