@@ -4,12 +4,11 @@ import Game from "@/components/Game";
 import TeamSelection from "@/components/TeamSelection";
 import { useInitGame } from "@/hooks/initGame";
 import { useState } from "react";
-import { useGameStore } from '@state/gameStore';
-
 
 interface IAcceptGamePage {}
 
 const AcceptGamePage: React.FC<IAcceptGamePage> = ({}) => {
+  useInitGame();
   const [selectedTeam, setSelectedTeam] = useState(1);
   const [isGameStarted, setIsGameStarted] = useState(false);
   return (

@@ -31,9 +31,9 @@ const Navbar = ({ className }: { className?: string }) => {
 
   return (
     <div
-      className={` flex justify-between pt-3 md:pt-6 items-center md:items-end    px-6 ${
-        pathname === "/" ? "bg-[#E0F4FF]" : "bg-transparent"
-      }  dark:bg-black  w-full z-20 top-0 left-0`}
+      className={` flex justify-between font-technor pt-3 md:pt-6 items-center md:items-end    px-6 ${
+        pathname === "/" ? "bg-[#E0F4FF] dark:bg-black" : "bg-transparent"
+      }    w-full z-20 top-0 left-0`}
     >
       {width < 950 ? (
         <MobileMenu setActive={setActive}>
@@ -98,11 +98,11 @@ const Navbar = ({ className }: { className?: string }) => {
           <FloatingMenu setActive={setActive}>
             <Link
               href="/your-games"
-              className={`text-black ${buttonVariants({
+              className={`text-black  ${buttonVariants({
                 variant: "link",
               })}`}
             >
-              Your Games
+              <span className="font-bold ">Your Games</span>
             </Link>
             <Link
               href="/create-game"
@@ -110,7 +110,7 @@ const Navbar = ({ className }: { className?: string }) => {
                 variant: "link",
               })}`}
             >
-              Create Game
+              <span className="font-bold ">Create Game</span>
             </Link>
           </FloatingMenu>
         )}

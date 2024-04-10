@@ -16,9 +16,22 @@ module.exports = {
       },
     },
     extend: {
-      // backgroundImage: {
-      //   field: "url('/field.svg')",
-      // },
+      backgroundImage: {
+        // field: "url('/field.svg')",
+        teamOne: "url('/team_assets/zues_logo.svg')",
+        teamTwo: "url('/team_assets/knights_logo.svg')",
+        teamThree: "url('/team_assets/lions_logo.svg')",
+        teamFour: "url('/team_assets/eagles_logo.svg')",
+        teamFive: "url('/team_assets/sunrise_logo.svg')",
+        teamSix: "url('/team_assets/hearts_logo.svg')",
+      },
+      fontFamily: {
+        sansSerif: ["var(--font-panamera)"],
+        phosphene: ["var(--font-phosphene)"],
+        weird: ["var(--font-uncutSans)"],
+        technor: ["var(--font-technor)"],
+        supreme: ["var(--font-supreme)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

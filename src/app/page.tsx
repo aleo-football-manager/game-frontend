@@ -11,14 +11,14 @@ import { IoFootballOutline, IoGameControllerOutline } from "react-icons/io5";
 export default function Home() {
   const header = "Welcome to Super Leo Lig".split(" ");
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden bg-white dark:bg-gray-900">
+    <div className="flex flex-col font-technor min-h-screen overflow-x-hidden bg-white dark:bg-gray-900">
       <main className="flex-1">
         <section className="w-full py-6 sm:py-12 md:py-24 xl:py-48   dark:bg-black bg-[#E0F4FF] ">
           <div className="container xl:-mt-4 px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl w-2/3 font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                  <h1 className="text-3xl w-2/3 font-technor font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                     {header.map((el, i) => (
                       <motion.span
                         initial={{ opacity: 0 }}
@@ -33,7 +33,7 @@ export default function Home() {
                       </motion.span>
                     ))}
                   </h1>
-                  <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
+                  <p className="max-w-[600px] font-supreme tracking-tighter text-gray-500 md:text-xl dark:text-gray-400">
                     Experience the thrill of football like never before.
                     Challenge your friends, build your dream team and rise to
                     the top of the league.
@@ -65,21 +65,21 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold text-white tracking-tighter sm:text-5xl">
+                <h2 className="text-3xl font-bold font-technor text-white tracking-tighter sm:text-5xl">
                   Play, Compete, Earn
                 </h2>
-                <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                <p className="max-w-[900px] font-supreme text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
                   Our game offers a unique and immersive on-chain football
                   experience. Challenge your friends on a zk powered football
                   manager game and win!
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
+            <div className="mx-auto grid font-supreme max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
               <Card>
                 <CardContent className="flex flex-col text-center items-center space-y-4">
                   <IoGameControllerOutline className="h-10 mt-2 w-10" />
-                  <h3 className="text-xl font-bold">Compete</h3>
+                  <h3 className="text-xl font-bold font-technor">Compete</h3>
                   <p className="text-gray-500 dark:text-gray-400">
                     Compete against players from around the world.
                   </p>
@@ -88,7 +88,9 @@ export default function Home() {
               <Card>
                 <CardContent className="flex flex-col text-center items-center space-y-4">
                   <IoFootballOutline className="h-10 w-10 mt-2" />
-                  <h3 className="text-xl font-bold">Build Your Team</h3>
+                  <h3 className="text-xl font-bold font-technor">
+                    Build Your Team
+                  </h3>
                   <p className="text-gray-500 dark:text-gray-400">
                     Build your best team and tactic to beat your opponent
                   </p>
@@ -97,7 +99,7 @@ export default function Home() {
               <Card>
                 <CardContent className="flex flex-col text-center items-center space-y-4">
                   <CiTrophy className="h-10 w-10 mt-2" />
-                  <h3 className="text-xl font-bold">Win</h3>
+                  <h3 className="text-xl font-bold font-technor">Win</h3>
                   <p className="text-gray-500 dark:text-gray-400">
                     Play the first ZK Football Manager game and earn!
                   </p>

@@ -13,7 +13,7 @@ const CreateGame: React.FC<ICreateGame> = ({}) => {
   useInitGame();
 
   return (
-    <div className="">
+    <div className="font-technor">
       {isGameStarted ? (
         <Game selectedTeam={selectedTeam} isChallenged={false} />
       ) : (
