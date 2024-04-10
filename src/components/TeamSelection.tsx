@@ -461,13 +461,13 @@ const TeamSelection: React.FC<ITeamSelection> = ({
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Start Game</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="font-technor">Start Game</DialogTitle>
+              <DialogDescription className="font-supreme">
                 Enter your opponent&apos;s Aleo address and how much you are
                 wagering for the game
               </DialogDescription>
             </DialogHeader>
-            <div className="relative">
+            <div className="relative font-supreme">
               <Input
                 type="text"
                 value={opponent}
@@ -491,13 +491,13 @@ const TeamSelection: React.FC<ITeamSelection> = ({
 
                 // defaultValue="4-4-2"
               >
-                <SelectTrigger className="w-full ">
+                <SelectTrigger className="w-full font-supreme ">
                   <SelectValue
                     className=""
                     placeholder="Select from previous opponents"
                   />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="font-supreme">
                   <SelectGroup>
                     <SelectLabel>Previous Opponents</SelectLabel>
                     {savedOpponents?.map((opponent) => {
@@ -512,11 +512,13 @@ const TeamSelection: React.FC<ITeamSelection> = ({
               </Select>
             )}
             {opponentError && (
-              <p className="text-red-500 text-sm">{opponentError}</p>
+              <p className="text-red-500 text-sm font-supreme">
+                {opponentError}
+              </p>
             )}
             <div className="grid gap-4 py-4">
               <div className="flex w-full relative items-center gap-4">
-                <Label htmlFor="amount" className="text-right">
+                <Label htmlFor="amount" className="text-right font-technor">
                   Wager
                 </Label>
                 <Input
@@ -528,7 +530,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                       setBet(parseInt(e.currentTarget.value));
                     }
                   }}
-                  className="col-span-3 outline-none  ring-offset-0"
+                  className="col-span-3 outline-none font-technor ring-offset-0"
                   value={bet}
                 />
                 <p className="absolute text-xl tracking-tighter right-4">
@@ -536,23 +538,25 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                   &#129513;
                 </p>
               </div>
-              {betError && <p className="text-red-500 text-sm">{betError}</p>}
+              {betError && (
+                <p className="text-red-500 text-sm font-supreme">{betError}</p>
+              )}
               {availableBalance === 0 ? (
-                <div className="flex flex-col gap-4 -mb-6 items-center justify-center text-center w-full tracking-tight">
+                <div className="flex flex-col font-supreme gap-4 -mb-6 items-center justify-center text-center w-full tracking-tight">
                   <p className="text-red-500 text-sm">
                     You need puzzle pieces to play the game
                   </p>
                   <Button
                     disabled={loading}
                     onClick={getPuzzlePieces}
-                    className="w-32"
+                    className="w-32 font-technor"
                     variant={"outline"}
                   >
                     Mint Pieces
                   </Button>
                 </div>
               ) : (
-                <div className="relative flex flex-col">
+                <div className="relative font-technor flex flex-col">
                   <Slider
                     className="mt-6"
                     onValueChange={(e) => setBet(e[0])}
@@ -614,7 +618,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
                 </div>
               )}
             </div>
-            <div className="flex w-full justify-center  items-center ">
+            <div className="flex w-full font-technor justify-center  items-center ">
               {availableBalance !== 0 && (
                 <Button
                   onClick={handleStartGame}
@@ -631,7 +635,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
       ) : (
         <Button
           onClick={handleStartGame}
-          className="w-36"
+          className="w-36 font-technor"
           variant={"outline"}
           type="submit"
         >
