@@ -13,6 +13,7 @@ import {
   useAccount,
   zodAddress,
 } from "@puzzlehq/sdk";
+import { Canvas } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -25,11 +26,12 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { EffectCoverflow, Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper } from "swiper/react";
 import { z } from "zod";
 import { useNewGameStore } from "../app/create-game/store";
 import { truncateAddress } from "./ConnectWallet";
-import TeamCard, { ColorVariants } from "./TeamCard";
+import PortalTeamCard from "./PortalTeamCard";
+import { ColorVariants } from "./TeamCard";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -407,7 +409,10 @@ const TeamSelection: React.FC<ITeamSelection> = ({
             <FeaturedEventCard artist={artist} />
           </SwiperSlide>
         ))} */}
-        {teams.map((team, index) => {
+        <Canvas>
+          <PortalTeamCard />
+        </Canvas>
+        {/* {teams.map((team, index) => {
           return (
             <SwiperSlide
               key={team.name}
@@ -421,7 +426,7 @@ const TeamSelection: React.FC<ITeamSelection> = ({
               />
             </SwiperSlide>
           );
-        })}
+        })} */}
       </Swiper>
       <div className="w-full max-w-5xl absolute top-[45%] flex justify-between">
         <div className="   ">

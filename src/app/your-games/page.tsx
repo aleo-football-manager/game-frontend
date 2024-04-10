@@ -31,9 +31,9 @@ const YourGames: React.FC<IYourGames> = ({}) => {
   );
   const { account } = useAccount();
   const [loading, setLoading] = useState(false);
-  // console.log("🚀 ~ yourTurn:", yourTurn);
-  // console.log("🚀 ~ theirTurn:", theirTurn);
-  // console.log("🚀 ~ finished:", finished);
+  console.log("🚀 ~ yourTurn:", yourTurn);
+  console.log("🚀 ~ theirTurn:", theirTurn);
+  console.log("🚀 ~ finished:", finished);
 
   const [initialize] = useNewGameStore((state) => [state.initialize]);
 
