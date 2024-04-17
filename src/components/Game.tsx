@@ -36,6 +36,8 @@ import {
   AcceptGameInputs,
   GAME_FUNCTIONS,
   GAME_PROGRAM_ID,
+  COIN_PROGRAM_ID,
+  PVP_UTILS_PROGRAM_ID,
   ProposeGameInputs,
   transitionFees,
 } from "../app/state/manager";
@@ -284,9 +286,9 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
 
   const filter: RecordsFilter = {
     programIds: [
-      "football_game_v014.aleo",
-      "puzzle_pieces_v016.aleo",
-      "multiparty_pvp_utils_v015_avh.aleo",
+      GAME_PROGRAM_ID,
+      COIN_PROGRAM_ID,
+      PVP_UTILS_PROGRAM_ID,
     ],
     type: "unspent",
   };
@@ -299,15 +301,15 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
         // multisig: true,
       });
       const msGameRecordsData = records?.records?.filter(
-        (record) => record.programId === "football_game_v014.aleo"
+        (record) => record.programId === GAME_PROGRAM_ID
       );
 
       const msPuzzleRecordsData = records?.records?.filter(
-        (record) => record.programId === "puzzle_pieces_v016.aleo"
+        (record) => record.programId === COIN_PROGRAM_ID
       );
 
       const msUtilRecords = records?.records?.filter(
-        (record) => record.programId === "multiparty_pvp_utils_v015_avh.aleo"
+        (record) => record.programId === PVP_UTILS_PROGRAM_ID
       );
       setMsPuzzleRecords(msPuzzleRecordsData!);
       setMsGameRecords(msGameRecordsData!);

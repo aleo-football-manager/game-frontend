@@ -1,6 +1,9 @@
 "use client";
 import { useGameStore } from "@/app/state/gameStore";
-import { transitionFees } from "@/app/state/manager";
+import { 
+  COIN_FUNCTIONS,
+  COIN_PROGRAM_ID,
+  transitionFees } from "@/app/state/manager";
 import {
   EventType,
   disconnect,
@@ -56,9 +59,9 @@ const ConnectWallet: React.FC<IConnectWallet> = ({ setIsWalletModal }) => {
     try {
       const response = await requestCreateEvent({
         type: EventType.Execute,
-        programId: "puzzle_pieces_v016.aleo",
-        functionId: "mint_private",
-        fee: transitionFees.submit_wager,
+        programId: COIN_PROGRAM_ID,
+        functionId: COIN_FUNCTIONS.mint_private,
+        fee: transitionFees.mint_private,
         inputs: Object.values({
           amount: "1000u64",
           address: account?.address!,

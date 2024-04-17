@@ -5,6 +5,10 @@ import {
   getEvents,
 } from "@puzzlehq/sdk";
 
+import {
+  GAME_PROGRAM_ID,
+} from "@/app/state/manager";
+
 export const getPositionRole = (positionCode: number): string => {
   switch (positionCode) {
     case 1:
@@ -54,7 +58,7 @@ export const calculateAttribute = (value: number | string): number => {
 export const getAllPuzzleWalletEvents = async () => {
   const filter: EventsFilter = {
     type: EventType.Execute,
-    programId: "football_game_v014.aleo",
+    programId: GAME_PROGRAM_ID,
   };
   const events: GetEventsResponse = await getEvents(filter);
   return events.events;

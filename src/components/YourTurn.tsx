@@ -4,6 +4,9 @@ import {
   FinishGameInputs,
   GAME_FUNCTIONS,
   GAME_PROGRAM_ID,
+  COIN_PROGRAM_ID,
+  PVP_UTILS_PROGRAM_ID,
+  GAME_OUCOMES_MAPPING,
   RevealAnswerInputs,
   SubmitWagerInputs,
   transitionFees,
@@ -47,9 +50,9 @@ interface IYourTurn {
 
 const filter: RecordsFilter = {
   programIds: [
-    "football_game_v014.aleo",
-    "puzzle_pieces_v016.aleo",
-    "multiparty_pvp_utils_v015_avh.aleo",
+    GAME_PROGRAM_ID,
+    COIN_PROGRAM_ID,
+    PVP_UTILS_PROGRAM_ID,
   ],
   type: "unspent",
 };
@@ -132,15 +135,15 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
         // multisig: true,
       });
       const msGameRecordsData = records?.records?.filter(
-        (record) => record.programId === "football_game_v014.aleo"
+        (record) => record.programId === GAME_PROGRAM_ID
       );
 
       const msPuzzleRecordsData = records?.records?.filter(
-        (record) => record.programId === "puzzle_pieces_v016.aleo"
+        (record) => record.programId === COIN_PROGRAM_ID
       );
 
       const msUtilRecords = records?.records?.filter(
-        (record) => record.programId === "multiparty_pvp_utils_v015_avh.aleo"
+        (record) => record.programId === PVP_UTILS_PROGRAM_ID
       );
       setMsPuzzleRecords(msPuzzleRecordsData!);
       setMsGameRecords(msGameRecordsData!);
@@ -294,7 +297,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
     try {
       console.log("Fetching game outcome for game_id:", game_id);
       const response = await fetch(
-        `https://node.puzzle.online/testnet3/program/football_game_v014.aleo/mapping/game_outcomes/${game_id}`
+        `${GAME_OUCOMES_MAPPING}${game_id}`
       );
       const dataText = await response.json(); // Change this to text(), as JSON parsing fails
 
@@ -308,7 +311,7 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
   const fetchGameOutcomeObject = async () => {
     try {
       const response = await fetch(
-        `https://node.puzzle.online/testnet3/program/football_game_v014.aleo/mapping/game_outcomes/${game_id}`
+        `${GAME_OUCOMES_MAPPING}${game_id}`
       );
 
       const dataText = await response.text(); // Change this to text(), as JSON parsing fails

@@ -1,7 +1,11 @@
 "use client";
 import { Step, useAcceptGameStore } from "@/app/accept-game/store";
 import { useGameStore } from "@/app/state/gameStore";
-import { transitionFees } from "@/app/state/manager";
+import { GAME_PROGRAM_ID,
+  COIN_PROGRAM_ID,
+  PVP_UTILS_PROGRAM_ID,
+  transitionFees, 
+  COIN_FUNCTIONS} from "@/app/state/manager";
 import { useEventHandling } from "@/hooks/eventHandling";
 import { useMsRecords } from "@/hooks/msRecords";
 import { teams } from "@/utils/team-data";
@@ -148,9 +152,9 @@ const TeamSelection: React.FC<ITeamSelection> = ({
   const filter: RecordsFilter = {
     type: "unspent",
     programIds: [
-      "football_game_v014.aleo",
-      "puzzle_pieces_v016.aleo",
-      "multiparty_pvp_utils_v015_avh.aleo",
+      GAME_PROGRAM_ID,
+      COIN_PROGRAM_ID,
+      PVP_UTILS_PROGRAM_ID,
     ],
   };
   useEffect(() => {
@@ -207,9 +211,9 @@ const TeamSelection: React.FC<ITeamSelection> = ({
     try {
       const response = await requestCreateEvent({
         type: EventType.Execute,
-        programId: "puzzle_pieces_v016.aleo",
-        functionId: "mint_private",
-        fee: transitionFees.submit_wager,
+        programId: COIN_PROGRAM_ID,
+        functionId: COIN_FUNCTIONS.mint_private,
+        fee: transitionFees.mint_private,
         inputs: Object.values({
           amount: "1000u64",
           address: account?.address!,

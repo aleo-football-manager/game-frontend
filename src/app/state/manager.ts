@@ -1,6 +1,10 @@
 import { RecordWithPlaintext } from "@puzzlehq/sdk";
 
-export const GAME_PROGRAM_ID = "football_game_v014.aleo";
+export const GAME_PROGRAM_ID = "football_game_v015.aleo";
+export const COIN_PROGRAM_ID = "football_coins_v001.aleo";
+export const PVP_UTILS_PROGRAM_ID = "football_pvp_utils_v001.aleo";
+export const GAME_OUCOMES_MAPPING = "https://node.puzzle.online/testnet3/program/football_game_v015.aleo/mapping/game_outcomes/";
+
 export const GAME_RESULTS_MAPPING = "game_outcomes";
 
 export const GAME_FUNCTIONS = {
@@ -11,6 +15,9 @@ export const GAME_FUNCTIONS = {
   finish_game: "finish_game",
   calculate_outcome: "calculate_outcome",
 };
+export const COIN_FUNCTIONS = {
+  mint_private: "mint_private",
+};
 
 /// todo - update these
 export const transitionFees = {
@@ -20,6 +27,7 @@ export const transitionFees = {
   calculate_outcome: 3.1,
   reveal_answer: 0.1,
   finish_game: 0.1,
+  mint_private: 
 };
 
 export type LoadingStatus = "idle" | "loading" | "success" | "error";
