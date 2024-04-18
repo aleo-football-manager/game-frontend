@@ -333,7 +333,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
         `${ALEO_NETWORK_URL}/latest/height`
       );
       const activePlayerIds = activePlayers.map((player) => {
-        return `${player.id}u8`;
+        return `${player.id}field`;
       });
       const block_ht = Number(await response_block_ht.json());
       // TODO: Error handling for missing input
@@ -420,7 +420,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
       ) {
         const fields = Object(jsyaml.load(signature.messageFields));
         const activePlayerIds = activePlayers.map((player) => {
-          return `${player.id}u8`;
+          return `${player.id}field`;
         });
 
         const proposalInputs: ProposeGameInputs = {
@@ -517,7 +517,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
   //         challenger_sig: signature.signature,
   //         challenger_nonce: nonce, /// todo - make this random
   //         challenger_answer:
-  //           "[1u8, 4u8, 5u8, 6u8, 7u8, 8u8, 9u8, 10u8, 11u8, 12u8, 13u8]",
+  //           "[1field, 4field, 5field, 6field, 7field, 8field, 9field, 10field, 11field, 12field, 13field]",
   //         game_multisig_seed,
   //       };
   //       const response = await requestCreateEvent({
@@ -564,7 +564,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
   //     > = {
   //       game_record: inputsAcceptGame.game_record,
   //       opponent_answer:
-  //         "[1u8, 4u8, 5u8, 6u8, 7u8, 8u8, 9u8, 10u8, 11u8, 12u8, 13u8]",
+  //           "[1field, 4field, 5field, 6field, 7field, 8field, 9field, 10field, 11field, 12field, 13field]",
   //       piece_stake_challenger: inputsAcceptGame.piece_stake_challenger,
   //       piece_claim_challenger: inputsAcceptGame.piece_claim_challenger,
   //       piece_stake_opponent: inputsAcceptGame.piece_stake_opponent,

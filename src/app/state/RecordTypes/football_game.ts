@@ -2,12 +2,12 @@
 import { RecordWithPlaintext, zodAddress } from "@puzzlehq/sdk";
 import { z } from "zod";
 
-const u8 = z.number().int().min(0).max(255);
+const field = z.number().int().min(0).max(8444461749428370424248824938781546531375899335154063827935233455917409239040);
 
 export const GameRecordSchema = z.object({
   owner: zodAddress,
   challenger_commit: z.string(),
-  opponent_answer: z.array(u8).length(11),
+  opponent_answer: z.array(field).length(11),
   total_pot: z.string().transform(Number),
   challenger_address: zodAddress,
   opponent_address: zodAddress,
