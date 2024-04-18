@@ -27,7 +27,7 @@ export const transitionFees = {
   calculate_outcome: 3.1,
   reveal_answer: 0.1,
   finish_game: 0.1,
-  mint_private: 
+  mint_private: 0.0286, // todo put correct value
 };
 
 export type LoadingStatus = "idle" | "loading" | "success" | "error";
