@@ -38,6 +38,7 @@ export const isValidPlacement = (playerPosition: string, gridIndex: number) => {
   return true;
 };
 
+// todo: update this to map 1:1
 export const calculateAttribute = (value: number | string): number => {
   // Check if the value is within the specified range
   const parsedValue = Number(value);
