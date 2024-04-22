@@ -39,16 +39,16 @@ export const isValidPlacement = (playerPosition: string, gridIndex: number) => {
 };
 
 // todo: update this to map 1:1
-export const calculateAttribute = (value: number | string): number => {
+export const calculateAttributebute = (value: number | string): number => {
   // Check if the value is within the specified range
   const parsedValue = Number(value);
 
   if (parsedValue < 0 || parsedValue > 255) {
     throw new Error("Value is outside the specified range.");
   }
-
+  // TODO: mapping not needed anyore since its normalized now
   // Perform the linear mapping
-  const fromRange = 255 - 0;
+  const fromRange = 99 - 0;
   const toRange = 99 - 0;
 
   const scaledValue = (parsedValue - 0) * (toRange / fromRange) + 0;

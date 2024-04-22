@@ -1,9 +1,9 @@
 import { RecordWithPlaintext } from "@puzzlehq/sdk";
 
-export const GAME_PROGRAM_ID = "football_game_v015.aleo";
+export const GAME_PROGRAM_ID = "football_game_v015b.aleo";
 export const COIN_PROGRAM_ID = "football_coins_v001.aleo";
 export const PVP_UTILS_PROGRAM_ID = "football_pvp_utils_v001.aleo";
-export const GAME_OUCOMES_MAPPING = "https://node.puzzle.online/testnet3/program/football_game_v015.aleo/mapping/game_outcomes/";
+export const GAME_OUCOMES_MAPPING = "https://node.puzzle.online/testnet3/program/football_game_v015b.aleo/mapping/game_outcomes/";
 
 export const GAME_RESULTS_MAPPING = "game_outcomes";
 
@@ -11,23 +11,24 @@ export const GAME_FUNCTIONS = {
   propose_game: "propose_game",
   submit_wager: "submit_wager",
   accept_game: "accept_game",
+  calculate_outcome: "calculate_outcome",
   reveal_answer: "reveal_answer_game",
   finish_game: "finish_game",
-  calculate_outcome: "calculate_outcome",
+  finish_game_draw: "finish_game_draw",
 };
 export const COIN_FUNCTIONS = {
   mint_private: "mint_private",
 };
 
-/// todo - update these
+/// In comment actual values. For testing use more 
 export const transitionFees = {
-  propose_game: 0.027,
-  submit_wager: 0.0286,
-  accept_game: 0.05901,
-  calculate_outcome: 3.1,
+  propose_game: 0.027, // 0.017897
+  submit_wager: 0.01505, // 0.008505,
+  accept_game: 0.03901, // 0.030573
+  calculate_outcome: 3.2, //2.046452, todo: doesnt get in with 2.2 but burns 1.15??
   reveal_answer: 0.1,
   finish_game: 0.1,
-  mint_private: 0.0286, // todo put correct value
+  mint_private: 0.002, //0.001809,
 };
 
 export type LoadingStatus = "idle" | "loading" | "success" | "error";
@@ -35,7 +36,6 @@ export type LoadingStatus = "idle" | "loading" | "success" | "error";
 export type ProposeGameInputs = {
   wager_record: RecordWithPlaintext;
   challenger_wager_amount: string;
-  sender: string; // challenger address proposing game
   challenger: string;
   opponent: string;
   game_multisig: string;

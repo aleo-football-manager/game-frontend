@@ -406,7 +406,6 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
       const game_multisig = sharedStateResponse.data.address;
 
       setInputs({ ...inputs, game_multisig_seed, game_multisig });
-
       if (
         inputs?.opponent &&
         inputs?.wager_record &&
@@ -426,7 +425,6 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
         const proposalInputs: ProposeGameInputs = {
           wager_record: inputs.wager_record,
           challenger_wager_amount: inputs.challenger_wager_amount + "u64",
-          sender: account?.address,
           challenger: account?.address,
           opponent: inputs.opponent,
           game_multisig: game_multisig,
@@ -441,6 +439,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
           game_multisig_seed,
         };
         toast.info("Approve the transaction to create the game");
+        console.log(proposalInputs);
 
         const response = await requestCreateEvent({
           type: EventType.Execute,
@@ -449,6 +448,7 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
           fee: transitionFees.propose_game,
           inputs: Object.values(proposalInputs),
         });
+        console.log(response);
         setLoadingMessage("Starting Game...");
 
         if (response.error) {
@@ -757,7 +757,6 @@ const Game: React.FC<IGame> = ({ selectedTeam, isChallenged }) => {
         .filter((player) => player.team_id === teams[selectedTeam].id) // Filter by selectedTeam
         .map((player) => {
           const teamName = getTeamName(player.team_id);
-          console.log(`/players/player_${teamName}.png`, player);
           return {
             id: parseInt(player.player_uid),
             name: player.player_name,

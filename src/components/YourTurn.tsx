@@ -277,7 +277,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       functionId: GAME_FUNCTIONS.submit_wager,
       fee: transitionFees.submit_wager,
       inputs: Object.values(newInputs),
-      address: game_req_notification.owner, // opponent address
     });
     if (response.error) {
       setError(response.error);
@@ -406,8 +405,6 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       (r) => r.data.ix.replace(".private", "") === "10u32"
     );
 
-    const multisig = game.gameNotification.recordData.game_multisig;
-
     const game_outcome = await fetchGameOutcome();
 
     if (
@@ -494,11 +491,16 @@ const YourTurn: React.FC<IYourTurn> = ({ game, isFinished }) => {
       joint_piece_time_claim: joint_piece_time_claim,
     };
 
+    let game_function_finish = GAME_FUNCTIONS.finish_game;
+    if (joint_piece_winner.data.winner === game.gameNotification.recordData.game_multisig) {
+      game_function_finish = GAME_FUNCTIONS.finish_game_draw;
+    }
+
     // setCalculateOutcomeInputs(newInputs);
     const response = await requestCreateEvent({
       type: EventType.Execute,
       programId: GAME_PROGRAM_ID,
-      functionId: GAME_FUNCTIONS.finish_game,
+      functionId: game_function_finish,
       fee: transitionFees.finish_game,
       inputs: Object.values(newInputs),
       address: game_record.owner, // opponent address
